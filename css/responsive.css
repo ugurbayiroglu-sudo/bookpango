@@ -1,0 +1,429 @@
+/* ==========================================
+   BOOKPANGO - Responsive CSS
+   Mobile-First Responsive Design
+   ========================================== */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* ==========================================
+   Mobile Optimizations (max-width: 768px)
+   ========================================== */
+@media (max-width: 768px) {
+    /* Typography */
+    html {
+        font-size: 14px;
+    }
+    
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    h4 { font-size: 1.25rem; }
+    
+    /* Hero Section */
+    .hero {
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-search {
+        flex-direction: column;
+    }
+    
+    .hero-search button {
+        width: 100%;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+    
+    /* Navigation */
+    .nav-wrapper {
+        padding: var(--spacing-md) 0;
+    }
+    
+    .logo {
+        font-size: 1.25rem;
+    }
+    
+    .nav-actions {
+        gap: var(--spacing-sm);
+    }
+    
+    .btn-login {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+    }
+    
+    /* Section Spacing */
+    .featured-section,
+    .categories-section,
+    .books-section,
+    .blog-section {
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+    
+    .section-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    /* Grids */
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: var(--spacing-md);
+    }
+    
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    /* Cards */
+    .book-card-content {
+        padding: var(--spacing-md);
+    }
+    
+    .book-card-title {
+        font-size: 1rem;
+    }
+    
+    .blog-card-content {
+        padding: var(--spacing-md);
+    }
+    
+    .blog-card-title {
+        font-size: 1.125rem;
+    }
+    
+    .category-card {
+        padding: var(--spacing-md);
+    }
+    
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    /* Featured Slider */
+    .featured-slide {
+        min-width: 200px;
+    }
+    
+    .slider-controls {
+        margin-top: var(--spacing-md);
+    }
+    
+    .slider-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    /* Newsletter */
+    .newsletter-section {
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .newsletter-content h2 {
+        font-size: 1.75rem;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .newsletter-form button {
+        width: 100%;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: var(--spacing-2xl) 0 var(--spacing-lg);
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+    
+    /* Modal */
+    .modal {
+        padding: var(--spacing-md);
+    }
+    
+    .modal-content {
+        padding: var(--spacing-xl);
+    }
+    
+    /* Buttons */
+    .btn-primary,
+    .btn-secondary {
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+}
+
+/* ==========================================
+   Small Mobile (max-width: 480px)
+   ========================================== */
+@media (max-width: 480px) {
+    /* Typography */
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    
+    /* Container */
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    /* Hero */
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-stats {
+        width: 100%;
+    }
+    
+    .stat {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Grids */
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Search Bar */
+    .search-wrapper {
+        padding: var(--spacing-sm);
+    }
+    
+    .search-wrapper input {
+        font-size: 1rem;
+    }
+    
+    /* Cards */
+    .book-card-image {
+        padding-top: 140%; /* Slightly taller on mobile */
+    }
+    
+    /* Footer */
+    .social-links a {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* ==========================================
+   Tablet Portrait (min-width: 768px and max-width: 1024px)
+   ========================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .books-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==========================================
+   Touch Device Optimizations
+   ========================================== */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    .btn-primary,
+    .btn-secondary,
+    .btn-outline {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .nav-link {
+        padding: var(--spacing-md);
+    }
+    
+    .book-card-favorite {
+        width: 44px;
+        height: 44px;
+    }
+    
+    /* Remove hover effects */
+    .book-card:hover {
+        transform: none;
+    }
+    
+    .blog-card:hover {
+        transform: none;
+    }
+    
+    .category-card:hover {
+        transform: none;
+    }
+}
+
+/* ==========================================
+   Print Styles
+   ========================================== */
+@media print {
+    /* Hide non-essential elements */
+    .navbar,
+    .footer,
+    .newsletter-section,
+    .sidebar,
+    .admin-sidebar {
+        display: none !important;
+    }
+    
+    /* Optimize for print */
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+    
+    h1 { font-size: 24pt; }
+    h2 { font-size: 20pt; }
+    h3 { font-size: 16pt; }
+    
+    /* Page breaks */
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+    
+    img {
+        page-break-inside: avoid;
+    }
+    
+    /* Links */
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+}
+
+/* ==========================================
+   Accessibility Enhancements
+   ========================================== */
+
+/* Focus styles */
+*:focus {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+/* Skip to main content link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--secondary-color);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #000000;
+        --text-primary: #000000;
+        --bg-primary: #FFFFFF;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        border: 2px solid currentColor;
+    }
+}
+
+/* ==========================================
+   Landscape Orientation
+   ========================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-stats {
+        margin-top: var(--spacing-lg);
+    }
+}

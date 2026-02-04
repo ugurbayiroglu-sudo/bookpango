@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://www.bookpango.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BookPango</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <a href="/" class="admin-logo">
+                    <i class="fas fa-book-open"></i>
+                    <span>BookPango Admin</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/admin/index.html" class="sidebar-link active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/books.html" class="sidebar-link">
+                    <i class="fas fa-book"></i>
+                    <span>Books</span>
+                </a>
+                <a href="/admin/blogs.html" class="sidebar-link">
+                    <i class="fas fa-blog"></i>
+                    <span>Blog Posts</span>
+                </a>
+                <a href="/admin/categories.html" class="sidebar-link">
+                    <i class="fas fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+                <a href="/admin/comments.html" class="sidebar-link">
+                    <i class="fas fa-comments"></i>
+                    <span>Comments</span>
+                    <span class="badge" id="pendingCommentsBadge">0</span>
+                </a>
+                <a href="/admin/stats.html" class="sidebar-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Statistics</span>
+                </a>
+                
+                <div class="sidebar-divider"></div>
+                
+                <a href="/" class="sidebar-link">
+                    <i class="fas fa-home"></i>
+                    <span>Back to Site</span>
+                </a>
+                <a href="#" class="sidebar-link" id="adminLogout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="header-title">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back to BookPango Admin</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn-primary" onclick="window.location.href='/admin/add-book.html'">
+                        <i class="fas fa-plus"></i> Add Book
+                    </button>
+                    <button class="btn-secondary" onclick="window.location.href='/admin/add-blog.html'">
+                        <i class="fas fa-plus"></i> Add Blog
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="admin-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #E67E2220; color: #E67E22;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Total Books</div>
+                            <div class="stat-value" id="totalBooks">0</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> <span id="booksChange">0</span> this month
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #3498DB20; color: #3498DB;">
+                            <i class="fas fa-blog"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Blog Posts</div>
+                            <div class="stat-value" id="totalBlogs">0</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> <span id="blogsChange">0</span> this month
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #27AE6020; color: #27AE60;">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Total Reviews</div>
+                            <div class="stat-value" id="totalComments">0</div>
+                            <div class="stat-change pending">
+                                <i class="fas fa-clock"></i> <span id="pendingComments">0</span> pending
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #9B59B620; color: #9B59B6;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Total Users</div>
+                            <div class="stat-value" id="totalUsers">0</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> <span id="usersChange">0</span> this month
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-grid">
+                    <!-- Recent Books -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Recent Books</h3>
+                            <a href="/admin/books.html" class="card-link">View All</a>
+                        </div>
+                        <div class="card-content">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Views</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentBooksTable">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; padding: 40px;">
+                                            Loading...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Recent Comments -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Recent Comments</h3>
+                            <a href="/admin/comments.html" class="card-link">View All</a>
+                        </div>
+                        <div class="card-content">
+                            <div class="comments-list" id="recentCommentsList">
+                                <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                                    Loading...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Content -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Most Popular Books</h3>
+                        <a href="/admin/stats.html" class="card-link">View Statistics</a>
+                    </div>
+                    <div class="card-content">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Views</th>
+                                    <th>Rating</th>
+                                    <th>Reviews</th>
+                                </tr>
+                            </thead>
+                            <tbody id="popularBooksTable">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 40px;">
+                                        Loading...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="/js/config/firebase-config.js"></script>
+    <script src="/js/utils/helpers.js"></script>
+    <script src="/js/utils/auth.js"></script>
+    <script src="/js/admin/dashboard.js"></script>
+</body>
+</html>
