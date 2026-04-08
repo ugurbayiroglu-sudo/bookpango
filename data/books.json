@@ -1,1 +1,18 @@
-
+{
+  "books": [
+    {
+      "id": 1,
+      "slug": "milady-standard-cosmetology-14th-edition",
+      "name": "Milady Standard Cosmetology 14th Edition",
+      "price": 49.99,
+      "image": "images/books/milady-standard-cosmetology-14th-edition.jpg",
+      "external_url": "https://universitybooks-shop.fourthwall.com/products/milady-standard-cosmetology-14th-edition-pdf",
+      "category_id": "best-seller",
+      "description": "Official digital PDF • Instant download. The most trusted cosmetology textbook.",
+      "author": "Milady",
+      "isbn": "978-1285769637",
+      "pages": 1152,
+      "publication_year": 2022
+    }
+  ]
+}
