@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>University Books | Digital Textbooks</title>
+    <meta name="description" content="University Books offers digital PDFs of the best textbooks, medical references, and academic resources.">
+    <!-- Google Search Console doğrulama (sonra eklersiniz) -->
+    <!-- Google Analytics (sonra ekleyin) -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="top-nav">
+    <div class="nav-item" id="categoriesNav">
+        <span>Categories ▼</span>
+        <div class="dropdown-menu" id="categoriesDropdown"></div>
+    </div>
+    <div class="nav-item" id="authorsNav">
+        <span>Authors ▼</span>
+        <div class="dropdown-menu" id="authorsDropdown">
+            <a href="#">Stephen King</a>
+            <a href="#">J.K. Rowling</a>
+            <a href="#">James Clear</a>
+            <a href="#" class="see-all-link">See all authors →</a>
+        </div>
+    </div>
+    <a href="/blog" class="nav-item blog-link" id="blogLink">Blog</a>
+</div>
+
+<div id="app"></div>
+
+<script type="module" src="js/main.js"></script>
+
+<script>
+  // Dropdown menü davranışı (değiştirmeyin)
+  let closeTimeout = null;
+  function closeAllDropdowns() {
+    document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
+  }
+  function openDropdown(dropdown) {
+    if (closeTimeout) clearTimeout(closeTimeout);
+    closeAllDropdowns();
+    dropdown.classList.add('show');
+  }
+  function scheduleClose(dropdown) {
+    if (closeTimeout) clearTimeout(closeTimeout);
+    closeTimeout = setTimeout(() => dropdown.classList.remove('show'), 300);
+  }
+  if (window.innerWidth > 768) {
+    const catItem = document.getElementById('categoriesNav');
+    const catDropdown = document.getElementById('categoriesDropdown');
+    const authItem = document.getElementById('authorsNav');
+    const authDropdown = document.getElementById('authorsDropdown');
+    catItem.addEventListener('mouseenter', () => openDropdown(catDropdown));
+    catItem.addEventListener('mouseleave', () => scheduleClose(catDropdown));
+    catDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
+    catDropdown.addEventListener('mouseleave', () => scheduleClose(catDropdown));
+    authItem.addEventListener('mouseenter', () => openDropdown(authDropdown));
+    authItem.addEventListener('mouseleave', () => scheduleClose(authDropdown));
+    authDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
+    authDropdown.addEventListener('mouseleave', () => scheduleClose(authDropdown));
+  } else {
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const dropdown = item.querySelector('.dropdown-menu');
+      if (dropdown) {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = dropdown.classList.contains('show');
+          closeAllDropdowns();
+          if (!isOpen) dropdown.classList.add('show');
+        });
+      }
+    });
+    document.addEventListener('click', closeAllDropdowns);
+  }
+</script>
+</body>
+</html>
