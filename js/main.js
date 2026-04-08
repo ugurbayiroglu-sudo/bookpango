@@ -1,7 +1,7 @@
-import { renderHomepage, renderCategoryPage, renderProductPage } from './templates.js';
+import { renderHomepage } from './templates.js';
 
 let allBooks = [];
-const categoryList = [
+const categories = [
   { id: "best-seller", title: "Best Seller" },
   { id: "new-arrivals", title: "New Arrivals" },
   { id: "medical-nursing", title: "Medical & Nursing" },
@@ -18,68 +18,55 @@ const categoryList = [
   { id: "herbal-medicine", title: "Herbal & Alternative Medicine" }
 ];
 
-const appContainer = document.getElementById('app');
+const sliderData = []; // manuel doldurulacak
+
+const app = document.getElementById('app');
 
 async function loadData() {
-  const res = await fetch('data/books.json');
-  const data = await res.json();
-  allBooks = data.books;
-  router();
-}
-
-function router() {
-  const path = window.location.pathname;
-  if (path === '/' || path === '/index.html') {
-    const sliderData = getSliderData();
-    const html = renderHomepage(allBooks, categoryList, sliderData);
-    appContainer.innerHTML = html;
-    initSlider();
-    initCarousels();
-    updateDropdownLinks();
-  } 
-  else if (path.startsWith('/category/')) {
-    const categorySlug = path.split('/')[2];
-    const category = categoryList.find(c => c.id === categorySlug);
-    if (category) {
-      const categoryBooks = allBooks.filter(b => b.category_id === categorySlug);
-      const html = renderCategoryPage(category, categoryBooks);
-      appContainer.innerHTML = html;
-      document.title = `${category.title} Books | University Books`;
+  try {
+    const res = await fetch('data/books.json');
+    const data = await res.json();
+    allBooks = data.books;
+    // Slider verilerini ilk 3 kitaptan oluştur
+    if (allBooks.length >= 3) {
+      sliderData.push(
+        { title: allBooks[0].name, desc: allBooks[0].description || 'Digital PDF', image: allBooks[0].image, url: allBooks[0].external_url },
+        { title: allBooks[1].name, desc: allBooks[1].description || 'Best academic resource', image: allBooks[1].image, url: allBooks[1].external_url },
+        { title: allBooks[2].name, desc: allBooks[2].description || 'Essential for students', image: allBooks[2].image, url: allBooks[2].external_url }
+      );
     } else {
-      notFound();
+      // fallback
+      sliderData.push({ title: "Sample Book", desc: "Description", image: "https://placehold.co/400x500?text=Cover", url: "#" });
     }
-  }
-  else if (path.startsWith('/product/')) {
-    const productSlug = path.split('/')[2];
-    const book = allBooks.find(b => b.slug === productSlug);
-    if (book) {
-      const html = renderProductPage(book);
-      appContainer.innerHTML = html;
-      addProductStructuredData(book);
-    } else {
-      notFound();
-    }
-  }
-  else {
-    notFound();
+    render();
+  } catch (err) {
+    console.error('Veri yüklenemedi:', err);
+    app.innerHTML = '<p>Error loading books. Please check console.</p>';
   }
 }
 
-function getSliderData() {
-  if (allBooks.length === 0) return [];
-  const top3 = allBooks.slice(0, 3);
-  return top3.map(book => ({
-    title: book.name,
-    desc: book.description || 'Digital PDF available',
-    image: book.image,
-    url: `/product/${book.slug}`
-  }));
+function render() {
+  const html = renderHomepage(allBooks, categories, sliderData);
+  app.innerHTML = html;
+  initSlider();
+  initCarousels();
+  attachSeeAllButtons();
+  // Kategori dropdown linklerini güncelle
+  const dropdown = document.getElementById('categoriesDropdown');
+  if (dropdown) {
+    dropdown.innerHTML = categories.map(cat => `<a href="#category-${cat.id}">${cat.title}</a>`).join('');
+    document.querySelectorAll('#categoriesDropdown a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
 }
 
-function notFound() {
-  appContainer.innerHTML = '<div style="text-align:center; padding:50px;"><h1>404 - Page Not Found</h1><a href="/">Go Home</a></div>';
-}
-
+// Slider
 let currentSlideIndex = 0;
 let autoInterval;
 let isPlaying = true;
@@ -109,6 +96,7 @@ function initSlider() {
   function resetAutoTimer() { if(isPlaying) { stopAutoSlide(); startAutoSlide(); } }
   function togglePlayPause() { isPlaying ? stopAutoSlide() : startAutoSlide(); }
 
+  // Indicator oluştur
   const indContainer = document.getElementById('sliderIndicators');
   if (indContainer) {
     indContainer.innerHTML = '';
@@ -127,8 +115,9 @@ function initSlider() {
   if (nextBtn) nextBtn.addEventListener('click', nextSlide);
   if (playPause) playPause.addEventListener('click', togglePlayPause);
 
-  let touchStart = 0;
+  // Touch swipe
   const sliderWrapper = document.getElementById('customSlider');
+  let touchStart = 0;
   if (sliderWrapper) {
     sliderWrapper.addEventListener('touchstart', e => touchStart = e.touches[0].clientX);
     sliderWrapper.addEventListener('touchend', e => {
@@ -165,51 +154,13 @@ function initCarousels() {
   });
 }
 
-function updateDropdownLinks() {
-  const dropdown = document.getElementById('categoriesDropdown');
-  if (dropdown) {
-    dropdown.innerHTML = categoryList.map(cat => `<a href="/category/${cat.id}">${cat.title}</a>`).join('');
-  }
-}
-
-function addProductStructuredData(book) {
-  const oldScript = document.querySelector('script[type="application/ld+json"]');
-  if (oldScript) oldScript.remove();
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.textContent = JSON.stringify({
-    "@context": "https://schema.org/",
-    "@type": "Product",
-    "name": book.name,
-    "image": book.image,
-    "description": book.description,
-    "sku": book.isbn || book.id,
-    "brand": { "@type": "Brand", "name": book.author || "University Books" },
-    "offers": {
-      "@type": "Offer",
-      "url": book.external_url,
-      "priceCurrency": "USD",
-      "price": book.price,
-      "availability": "https://schema.org/InStock",
-      "itemCondition": "https://schema.org/NewCondition"
-    }
+function attachSeeAllButtons() {
+  document.querySelectorAll('.see-all-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const catId = btn.getAttribute('data-category');
+      alert(`See all products in category: ${catId} (functionality to be added)`);
+    });
   });
-  document.head.appendChild(script);
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  loadData();
-  window.addEventListener('popstate', router);
-});
-
-document.body.addEventListener('click', (e) => {
-  let target = e.target.closest('a');
-  if (target && target.getAttribute('href') && target.getAttribute('href').startsWith('/')) {
-    const href = target.getAttribute('href');
-    if (href.startsWith('/') && !href.startsWith('//') && !href.startsWith('/#')) {
-      e.preventDefault();
-      history.pushState(null, '', href);
-      router();
-    }
-  }
-});
+loadData();
