@@ -4,68 +4,564 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>University Books | Digital Textbooks</title>
-  <meta name="description" content="Digital PDF textbooks, instant download.">
-  <!-- Google Analytics kodu sonra eklenebilir -->
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* -------------------- GENEL RESET -------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* -------------------- YATAY MENÜ (Categories | Authors | Blog) -------------------- */
+    .top-nav {
+      max-width: 1280px;
+      margin: 20px auto 0;
+      padding: 0 16px;
+      display: flex;
+      justify-content: flex-start;
+      gap: 24px;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .nav-item {
+      position: relative;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      padding: 4px 0;
+    }
+    .nav-item.blog-link {
+      text-decoration: none;
+      color: #000;
+    }
+    .nav-item.blog-link:hover {
+      opacity: 0.6;
+    }
+    /* Dropdown menü */
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-width: 220px;
+      z-index: 100;
+      display: none;
+      padding: 12px 0;
+      margin-top: 8px;
+    }
+    .dropdown-menu.show {
+      display: block;
+    }
+    .dropdown-menu a {
+      display: block;
+      padding: 8px 20px;
+      text-decoration: none;
+      color: #000;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:last-child {
+      border-bottom: none;
+    }
+    .dropdown-menu a:hover {
+      background: #f5f5f5;
+    }
+    .see-all-link {
+      font-weight: 700;
+      background: #f9f9f9;
+      margin-top: 4px;
+    }
+    /* Mobil için düzenleme */
+    @media (max-width: 768px) {
+      .top-nav {
+        gap: 16px;
+        justify-content: center;
+        padding: 0 12px 12px 12px;
+      }
+      .nav-item {
+        font-size: 0.85rem;
+      }
+      .dropdown-menu {
+        min-width: 180px;
+        left: -20px;
+      }
+    }
+
+    /* -------------------- SLIDER ALANI (Mobilde yatay) -------------------- */
+    .custom-slider-wrapper {
+      position: relative;
+      max-width: 1280px;
+      margin: 30px auto 0;
+      overflow: hidden;
+      background: #f5f5f5;
+      border: 1px solid #e5e5e5;
+      touch-action: pan-y pinch-zoom;
+    }
+    .custom-slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .custom-slide {
+      min-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 56px;
+      gap: 40px;
+      background: #ffffff;
+      flex-wrap: wrap;
+    }
+    .custom-slide-content {
+      flex: 1;
+    }
+    .custom-slide-content h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #000;
+    }
+    .custom-slide-content p {
+      color: #3a3a3a;
+      margin-bottom: 2rem;
+    }
+    .custom-slide-btn {
+      background: #000;
+      color: #fff;
+      padding: 12px 28px;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .custom-slide-btn:hover {
+      background: #333;
+    }
+    .custom-slide-image {
+      flex: 0.4;
+      text-align: center;
+    }
+    .custom-slide-image img {
+      max-width: 240px;
+      max-height: 280px;
+      object-fit: contain;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    /* Slider okları */
+    .custom-slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #000000;
+      color: white;
+      border: none;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 10;
+      border-radius: 0;
+    }
+    .custom-slider-wrapper:hover .custom-slider-btn {
+      opacity: 0.8;
+    }
+    .custom-slider-btn:hover {
+      opacity: 1 !important;
+    }
+    .custom-slider-left {
+      left: 20px;
+    }
+    .custom-slider-right {
+      right: 20px;
+    }
+    /* Mobilde slider yatay kalır, oklar gizlenir */
+    @media (max-width: 768px) {
+      .custom-slider-btn {
+        display: none;
+      }
+      .custom-slide {
+        padding: 20px 16px;
+        gap: 20px;
+        flex-direction: row;
+        text-align: left;
+      }
+      .custom-slide-content h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+      .custom-slide-content p {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+      }
+      .custom-slide-btn {
+        padding: 6px 16px;
+        font-size: 0.75rem;
+      }
+      .custom-slide-image {
+        flex: 0.3;
+      }
+      .custom-slide-image img {
+        max-width: 100px;
+        max-height: 140px;
+      }
+    }
+
+    /* -------------------- SLIDER INDICATOR + PLAY/PAUSE -------------------- */
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+    .slider-indicators {
+      display: flex;
+      gap: 10px;
+    }
+    .indicator-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .indicator-dot.active {
+      background-color: #000;
+    }
+    .play-pause-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #000;
+      padding: 0;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      height: auto;
+      transition: opacity 0.2s;
+    }
+    .play-pause-btn:hover {
+      opacity: 0.6;
+    }
+
+    /* -------------------- KATEGORİ BÖLÜMLERİ (Mobilde taşmayacak) -------------------- */
+    .category-section {
+      margin: 48px 0 40px;
+    }
+    .category-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .category-head h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #000;
+      text-transform: lowercase;
+    }
+    .category-head h2::first-letter {
+      text-transform: uppercase;
+    }
+    .see-all-btn {
+      background: #000;
+      color: white;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .see-all-btn:hover {
+      background: #333;
+    }
+    @media (max-width: 768px) {
+      .category-section {
+        margin: 28px 0 24px;
+      }
+      .category-head {
+        gap: 6px;
+      }
+      .category-head h2 {
+        font-size: 1rem;
+        letter-spacing: -0.3px;
+      }
+      .see-all-btn {
+        padding: 2px 8px;
+        font-size: 0.55rem;
+      }
+    }
+
+    /* -------------------- CAROUSEL (MASAÜSTÜ: 5'Lİ GRUP, MOBİL: SCROLL SNAP) -------------------- */
+    .carousel-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-container {
+      overflow: hidden;
+      width: 100%;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.4s ease;
+      gap: 16px;
+    }
+    .product-card {
+      flex: 0 0 calc(20% - 13px);
+      min-width: calc(20% - 13px);
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .product-card {
+        flex: 0 0 calc(20% - 13px);
+        min-width: calc(20% - 13px);
+      }
+    }
+    @media (max-width: 768px) {
+      .carousel-container {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .carousel-container::-webkit-scrollbar {
+        display: none;
+      }
+      .carousel-track {
+        transition: none;
+        gap: 12px;
+      }
+      .product-card {
+        flex: 0 0 calc(45% - 8px);
+        min-width: calc(45% - 8px);
+        scroll-snap-align: start;
+      }
+      .carousel-arrow {
+        display: none;
+      }
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+    }
+    .product-img {
+      aspect-ratio: 3/4;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      overflow: hidden;
+    }
+    .product-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.2s;
+    }
+    .product-card:hover .product-img img {
+      transform: scale(1.03);
+    }
+    .product-info {
+      padding: 10px 0 6px;
+      background: transparent;
+      border: none;
+      text-align: left;
+    }
+    .product-title {
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+      white-space: normal;
+    }
+    .product-price {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #000;
+      margin: 4px 0 0;
+    }
+    .btn-view {
+      background: #000;
+      color: white;
+      text-align: center;
+      padding: 5px 10px;
+      font-weight: 500;
+      font-size: 0.65rem;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 6px;
+    }
+    .btn-view:hover {
+      background: #333;
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #000;
+      padding: 0 8px;
+      z-index: 5;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .carousel-arrow:hover {
+      opacity: 1;
+    }
+    .carousel-arrow-left {
+      left: -30px;
+    }
+    .carousel-arrow-right {
+      right: -30px;
+    }
+    @media (max-width: 1000px) {
+      .carousel-arrow-left {
+        left: -10px;
+      }
+      .carousel-arrow-right {
+        right: -10px;
+      }
+    }
+    @media (max-width: 768px) {
+      .carousel-arrow {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <div class="top-nav">
   <div class="nav-item" id="categoriesNav">
     <span>Categories ▼</span>
-    <div class="dropdown-menu" id="categoriesDropdown"></div>
+    <div class="dropdown-menu" id="categoriesDropdown">
+      <a href="#category-best-seller">Best Seller</a>
+      <a href="#category-new-arrivals">New Arrivals</a>
+      <a href="#category-medical-nursing">Medical & Nursing</a>
+      <a href="#category-textbooks">Textbooks</a>
+      <a href="#category-engineering-math">Engineering & Mathematics</a>
+      <a href="#category-business-career">Business & Career</a>
+      <a href="#category-bestseller-novels">Bestseller Novels</a>
+      <a href="#category-student-favorites">Student Favorites</a>
+      <a href="#category-psychology-counseling">Psychology & Counseling</a>
+      <a href="#category-history-humanities">History & Humanities</a>
+      <a href="#category-natural-sciences">Natural Sciences</a>
+      <a href="#category-software-computer">Software & Computer Science</a>
+      <a href="#category-education">Education</a>
+      <a href="#category-herbal-medicine">Herbal & Alternative Medicine</a>
+    </div>
   </div>
+
   <div class="nav-item" id="authorsNav">
     <span>Authors ▼</span>
     <div class="dropdown-menu" id="authorsDropdown">
       <a href="#">Stephen King</a>
       <a href="#">J.K. Rowling</a>
       <a href="#">James Clear</a>
+      <a href="#">Yuval Noah Harari</a>
+      <a href="#">Michelle Obama</a>
+      <a href="#">Robert Greene</a>
+      <a href="#">Brené Brown</a>
+      <a href="#">Malcolm Gladwell</a>
+      <a href="#">Chimamanda Ngozi Adichie</a>
+      <a href="#">Colleen Hoover</a>
       <a href="#" class="see-all-link">See all authors →</a>
     </div>
   </div>
+
   <a href="#" class="nav-item blog-link" id="blogLink">Blog</a>
 </div>
 
-<!-- Slider ve kategoriler buraya yüklenecek -->
-<div id="app"></div>
+<div class="custom-slider-wrapper" id="customSlider">
+  <div class="custom-slides" id="customSlides"></div>
+  <button class="custom-slider-btn custom-slider-left" id="customPrev">←</button>
+  <button class="custom-slider-btn custom-slider-right" id="customNext">→</button>
+</div>
+<div class="slider-controls">
+  <div class="slider-indicators" id="sliderIndicators"></div>
+  <button class="play-pause-btn" id="playPauseBtn">⏸</button>
+</div>
 
-<script src="js/main.js" type="module"></script>
+<div id="categoriesContainer" style="max-width:1280px; margin:0 auto; padding:0 16px;"></div>
 
-<!-- Dropdown menü için yardımcı script (bağımsız) -->
 <script>
+  // =========================================================================
+  // 1. DROPDOWN MENÜ (Gecikmeli kapatma, hover/touch)
+  // =========================================================================
   let closeTimeout = null;
+
   function closeAllDropdowns() {
-    document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
+    document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+      menu.classList.remove('show');
+    });
   }
+
   function openDropdown(dropdown) {
     if (closeTimeout) clearTimeout(closeTimeout);
+    closeTimeout = null;
     closeAllDropdowns();
     dropdown.classList.add('show');
   }
+
   function scheduleClose(dropdown) {
     if (closeTimeout) clearTimeout(closeTimeout);
-    closeTimeout = setTimeout(() => dropdown.classList.remove('show'), 300);
+    closeTimeout = setTimeout(() => {
+      dropdown.classList.remove('show');
+      closeTimeout = null;
+    }, 300);
   }
+
   if (window.innerWidth > 768) {
-    const catItem = document.getElementById('categoriesNav');
-    const catDropdown = document.getElementById('categoriesDropdown');
-    const authItem = document.getElementById('authorsNav');
-    const authDropdown = document.getElementById('authorsDropdown');
-    if (catItem) {
-      catItem.addEventListener('mouseenter', () => openDropdown(catDropdown));
-      catItem.addEventListener('mouseleave', () => scheduleClose(catDropdown));
-      catDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
-      catDropdown.addEventListener('mouseleave', () => scheduleClose(catDropdown));
-    }
-    if (authItem) {
-      authItem.addEventListener('mouseenter', () => openDropdown(authDropdown));
-      authItem.addEventListener('mouseleave', () => scheduleClose(authDropdown));
-      authDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
-      authDropdown.addEventListener('mouseleave', () => scheduleClose(authDropdown));
-    }
+    const categoriesItem = document.getElementById('categoriesNav');
+    const authorsItem = document.getElementById('authorsNav');
+    const categoriesDropdown = document.getElementById('categoriesDropdown');
+    const authorsDropdown = document.getElementById('authorsDropdown');
+
+    categoriesItem.addEventListener('mouseenter', () => openDropdown(categoriesDropdown));
+    categoriesItem.addEventListener('mouseleave', () => scheduleClose(categoriesDropdown));
+    categoriesDropdown.addEventListener('mouseenter', () => { if (closeTimeout) clearTimeout(closeTimeout); });
+    categoriesDropdown.addEventListener('mouseleave', () => scheduleClose(categoriesDropdown));
+
+    authorsItem.addEventListener('mouseenter', () => openDropdown(authorsDropdown));
+    authorsItem.addEventListener('mouseleave', () => scheduleClose(authorsDropdown));
+    authorsDropdown.addEventListener('mouseenter', () => { if (closeTimeout) clearTimeout(closeTimeout); });
+    authorsDropdown.addEventListener('mouseleave', () => scheduleClose(authorsDropdown));
   } else {
-    document.querySelectorAll('.nav-item').forEach(item => {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
       const dropdown = item.querySelector('.dropdown-menu');
       if (dropdown) {
         item.addEventListener('click', (e) => {
@@ -76,12 +572,283 @@
         });
       }
     });
-    document.addEventListener('click', closeAllDropdowns);
+    document.addEventListener('click', () => closeAllDropdowns());
   }
-  document.getElementById('blogLink')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.location.href = 'blog.html';
+
+  document.querySelectorAll('#categoriesDropdown a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      closeAllDropdowns();
+    });
   });
+
+  document.querySelectorAll('#authorsDropdown a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Yazar tıklandı:', link.textContent);
+      closeAllDropdowns();
+    });
+  });
+
+  document.getElementById('blogLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'blog-page.html';
+  });
+
+  // =========================================================================
+  // 2. SLIDER FONKSİYONLARI (Slider verileri manuel dolduruldu)
+  // =========================================================================
+  const miladyImage = "https://imgproxy.fourthwall.com/smD2ZuSufwXNybwkL_4mOv1pQC3bdDlmpmYDefdibwM/w:1920/sm:1/enc/4S7VQ6Jqsmabmjyp/MiRZvftRchyWpC3O/syYARl4Up2YROwjc/4OiABjauWeIkuQv4/fBE4_vz6r0XDLITT/XfVDHG7JIigh_YCF/EnU_Eg02eLNGOTGF/c_Ea1kuMwTMiiadK/4R9QzYWB8BgUwCru/84MUplL250OiBPSU/cR4oN3fRtN-Lk2aT/qrY3S2YeO5WNfd9D/euCDL2s6GbUqAPtA/jI_c3w";
+  const miladyUrl = "https://universitybooks-shop.fourthwall.com/products/milady-standard-cosmetology-14th-edition-pdf";
+
+  const slidesData = [
+    { title: "Milady Standard Cosmetology 14th Edition", desc: "Official digital PDF • Instant download", image: miladyImage, url: miladyUrl },
+    { title: "Barron's AP Calculus Premium 2026", desc: "12 full-length tests", image: miladyImage, url: "#" },
+    { title: "Netter's Atlas of Human Anatomy", desc: "8th Edition", image: miladyImage, url: "#" },
+    { title: "PMBOK Guide 7th Edition", desc: "Official PMI", image: miladyImage, url: "#" },
+    { title: "Campbell Biology AP 12th", desc: "Urry & Cain", image: miladyImage, url: "#" }
+  ];
+
+  const slidesContainer = document.getElementById('customSlides');
+  let currentSlideIndex = 0;
+  let autoInterval;
+  let isPlaying = true;
+  let touchStartX = 0, touchEndX = 0;
+
+  function renderSlides() {
+    slidesContainer.innerHTML = slidesData.map((slide, idx) => `
+      <div class="custom-slide">
+        <div class="custom-slide-content">
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p>${escapeHtml(slide.desc)}</p>
+          <a href="${slide.url}" target="_blank" class="custom-slide-btn">View Book →</a>
+        </div>
+        <div class="custom-slide-image">
+          <img src="${slide.image}" alt="${escapeHtml(slide.title)}" onerror="this.src='https://placehold.co/400x500?text=Cover'">
+        </div>
+      </div>
+    `).join('');
+    updateSlidePosition();
+    renderIndicators();
+  }
+
+  function renderIndicators() {
+    const indicatorsContainer = document.getElementById('sliderIndicators');
+    indicatorsContainer.innerHTML = slidesData.map((_, idx) => `
+      <div class="indicator-dot ${idx === currentSlideIndex ? 'active' : ''}" data-index="${idx}"></div>
+    `).join('');
+    document.querySelectorAll('.indicator-dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        if (!isNaN(index)) {
+          currentSlideIndex = index;
+          updateSlidePosition();
+          resetAutoTimer();
+          renderIndicators();
+        }
+      });
+    });
+  }
+
+  function updateSlidePosition() {
+    slidesContainer.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+    renderIndicators();
+  }
+
+  function nextSlide() {
+    currentSlideIndex = (currentSlideIndex + 1) % slidesData.length;
+    updateSlidePosition();
+    resetAutoTimer();
+  }
+
+  function prevSlide() {
+    currentSlideIndex = (currentSlideIndex - 1 + slidesData.length) % slidesData.length;
+    updateSlidePosition();
+    resetAutoTimer();
+  }
+
+  function startAutoSlide() {
+    if (autoInterval) clearInterval(autoInterval);
+    autoInterval = setInterval(nextSlide, 5000);
+    isPlaying = true;
+    const btn = document.getElementById('playPauseBtn');
+    if (btn) btn.innerHTML = '⏸';
+  }
+
+  function stopAutoSlide() {
+    if (autoInterval) {
+      clearInterval(autoInterval);
+      autoInterval = null;
+    }
+    isPlaying = false;
+    const btn = document.getElementById('playPauseBtn');
+    if (btn) btn.innerHTML = '▶';
+  }
+
+  function resetAutoTimer() {
+    if (isPlaying) {
+      stopAutoSlide();
+      startAutoSlide();
+    }
+  }
+
+  function togglePlayPause() {
+    if (isPlaying) stopAutoSlide();
+    else startAutoSlide();
+  }
+
+  function handleTouchStart(e) { touchStartX = e.touches[0].clientX; }
+  function handleTouchEnd(e) {
+    touchEndX = e.changedTouches[0].clientX;
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 50) diff > 0 ? prevSlide() : nextSlide();
+  }
+
+  document.getElementById('customNext').addEventListener('click', nextSlide);
+  document.getElementById('customPrev').addEventListener('click', prevSlide);
+  const sliderWrapper = document.getElementById('customSlider');
+  sliderWrapper.addEventListener('touchstart', handleTouchStart, {passive: true});
+  sliderWrapper.addEventListener('touchend', handleTouchEnd);
+  document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+  
+  renderSlides();
+  startAutoSlide();
+
+  // =========================================================================
+  // 3. ÜRÜN VERİLERİ (14 KATEGORİ, tüm ürünler Milady resmiyle dolu)
+  // =========================================================================
+  const allProducts = [];
+  const categoriesList = [
+    { id: "best-seller", title: "Best Seller" },
+    { id: "new-arrivals", title: "New Arrivals" },
+    { id: "medical-nursing", title: "Medical & Nursing" },
+    { id: "textbooks", title: "Textbooks" },
+    { id: "engineering-math", title: "Engineering & Mathematics" },
+    { id: "business-career", title: "Business & Career" },
+    { id: "bestseller-novels", title: "Bestseller Novels" },
+    { id: "student-favorites", title: "Student Favorites" },
+    { id: "psychology-counseling", title: "Psychology & Counseling" },
+    { id: "history-humanities", title: "History & Humanities" },
+    { id: "natural-sciences", title: "Natural Sciences" },
+    { id: "software-computer", title: "Software & Computer Science" },
+    { id: "education", title: "Education" },
+    { id: "herbal-medicine", title: "Herbal & Alternative Medicine" }
+  ];
+
+  // Her kategoriye 5 örnek ürün ekle (tüm resimler Milady)
+  categoriesList.forEach((cat) => {
+    for (let i = 1; i <= 5; i++) {
+      allProducts.push({
+        name: `${cat.title} - Sample Book ${i}`,
+        price: 9.99 + (i * 2),
+        imageUrl: miladyImage,
+        url: miladyUrl,
+        category: cat.id
+      });
+    }
+  });
+
+  // =========================================================================
+  // 4. CAROUSEL OLUŞTURMA
+  // =========================================================================
+  function createCarousel(categoryId, products) {
+    const container = document.createElement('div');
+    container.className = 'carousel-wrapper';
+    const carouselId = `carousel-${categoryId}`;
+    container.innerHTML = `
+      <button class="carousel-arrow carousel-arrow-left" data-carousel="${carouselId}">‹</button>
+      <div class="carousel-container" id="${carouselId}">
+        <div class="carousel-track" id="track-${carouselId}">
+          ${products.map(p => `
+            <div class="product-card">
+              <div class="product-img">
+                <img src="${p.imageUrl}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://placehold.co/400x500?text=Cover'">
+              </div>
+              <div class="product-info">
+                <div class="product-title">${escapeHtml(p.name)}</div>
+                <div class="product-price">$${p.price.toFixed(2)}</div>
+                <a href="${p.url}" target="_blank" class="btn-view">View Book →</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <button class="carousel-arrow carousel-arrow-right" data-carousel="${carouselId}">›</button>
+    `;
+    return container;
+  }
+
+  function initDesktopCarousel(carouselId, totalItems) {
+    const track = document.getElementById(`track-${carouselId}`);
+    if (!track) return;
+    if (window.innerWidth < 769) return;
+    const items = Array.from(track.children);
+    if (items.length === 0) return;
+    const itemsPerView = 5;
+    const itemWidth = items[0].offsetWidth + 16;
+    let currentGroup = 0;
+    const groups = Math.ceil(totalItems / itemsPerView);
+    
+    function updateCarousel() {
+      const offset = -currentGroup * (itemsPerView * itemWidth);
+      track.style.transform = `translateX(${offset}px)`;
+    }
+    function nextGroup() {
+      currentGroup = (currentGroup + 1) % groups;
+      updateCarousel();
+    }
+    function prevGroup() {
+      currentGroup = (currentGroup - 1 + groups) % groups;
+      updateCarousel();
+    }
+    const leftBtn = document.querySelector(`.carousel-arrow-left[data-carousel="${carouselId}"]`);
+    const rightBtn = document.querySelector(`.carousel-arrow-right[data-carousel="${carouselId}"]`);
+    if (leftBtn) leftBtn.addEventListener('click', prevGroup);
+    if (rightBtn) rightBtn.addEventListener('click', nextGroup);
+    updateCarousel();
+  }
+
+  const containerElem = document.getElementById('categoriesContainer');
+  let html = '';
+  categoriesList.forEach(cat => {
+    const filtered = allProducts.filter(p => p.category === cat.id);
+    if (filtered.length === 0) return;
+    html += `
+      <div class="category-section" id="category-${cat.id}">
+        <div class="category-head">
+          <h2>${cat.title}</h2>
+          <a href="#" class="see-all-btn">See all →</a>
+        </div>
+        <div id="carousel-placeholder-${cat.id}"></div>
+      </div>
+    `;
+  });
+  containerElem.innerHTML = html;
+
+  categoriesList.forEach(cat => {
+    const filtered = allProducts.filter(p => p.category === cat.id);
+    if (filtered.length === 0) return;
+    const placeholder = document.getElementById(`carousel-placeholder-${cat.id}`);
+    const carouselElement = createCarousel(cat.id, filtered);
+    placeholder.appendChild(carouselElement);
+    if (window.innerWidth >= 769) {
+      setTimeout(() => initDesktopCarousel(cat.id, filtered.length), 100);
+    }
+  });
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
 </script>
 </body>
 </html>
