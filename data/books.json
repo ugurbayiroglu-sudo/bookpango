@@ -5,14 +5,28 @@
       "slug": "milady-standard-cosmetology-14th-edition",
       "name": "Milady Standard Cosmetology 14th Edition",
       "price": 49.99,
-      "image": "images/books/milady-standard-cosmetology-14th-edition.jpg",
+      "image": "https://imgproxy.fourthwall.com/smD2ZuSufwXNybwkL_4mOv1pQC3bdDlmpmYDefdibwM/w:1920/sm:1/enc/4S7VQ6Jqsmabmjyp/MiRZvftRchyWpC3O/syYARl4Up2YROwjc/4OiABjauWeIkuQv4/fBE4_vz6r0XDLITT/XfVDHG7JIigh_YCF/EnU_Eg02eLNGOTGF/c_Ea1kuMwTMiiadK/4R9QzYWB8BgUwCru/84MUplL250OiBPSU/cR4oN3fRtN-Lk2aT/qrY3S2YeO5WNfd9D/euCDL2s6GbUqAPtA/jI_c3w",
       "external_url": "https://universitybooks-shop.fourthwall.com/products/milady-standard-cosmetology-14th-edition-pdf",
       "category_id": "best-seller",
-      "description": "Official digital PDF • Instant download. The most trusted cosmetology textbook.",
+      "description": "Official digital PDF • Instant download",
       "author": "Milady",
       "isbn": "978-1285769637",
       "pages": 1152,
       "publication_year": 2022
+    },
+    {
+      "id": 2,
+      "slug": "barrons-ap-calculus-premium-2026",
+      "name": "Barron's AP Calculus Premium 2026",
+      "price": 24.99,
+      "image": "https://imgproxy.fourthwall.com/smD2ZuSufwXNybwkL_4mOv1pQC3bdDlmpmYDefdibwM/w:1920/sm:1/enc/4S7VQ6Jqsmabmjyp/MiRZvftRchyWpC3O/syYARl4Up2YROwjc/4OiABjauWeIkuQv4/fBE4_vz6r0XDLITT/XfVDHG7JIigh_YCF/EnU_Eg02eLNGOTGF/c_Ea1kuMwTMiiadK/4R9QzYWB8BgUwCru/84MUplL250OiBPSU/cR4oN3fRtN-Lk2aT/qrY3S2YeO5WNfd9D/euCDL2s6GbUqAPtA/jI_c3w",
+      "external_url": "#",
+      "category_id": "engineering-math",
+      "description": "12 full-length practice tests",
+      "author": "David Bock",
+      "isbn": "978-1506291480",
+      "pages": 648,
+      "publication_year": 2025
     }
   ]
 }
