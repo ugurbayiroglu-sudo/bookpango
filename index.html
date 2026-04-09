@@ -1,557 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>University Books | Digital Textbooks</title>
-    <style>
-        /* ---------- TÜM STILLER (ORIJINAL) ---------- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #fff;
-        }
-        .top-nav {
-            max-width: 1280px;
-            margin: 20px auto 0;
-            padding: 0 16px;
-            display: flex;
-            justify-content: flex-start;
-            gap: 24px;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        .nav-item {
-            position: relative;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            color: #000;
-            background: transparent;
-            border: none;
-            padding: 4px 0;
-        }
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            min-width: 220px;
-            z-index: 100;
-            display: none;
-            padding: 12px 0;
-            margin-top: 8px;
-        }
-        .dropdown-menu.show { display: block; }
-        .dropdown-menu a {
-            display: block;
-            padding: 8px 20px;
-            text-decoration: none;
-            color: #000;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .dropdown-menu a:hover { background: #f5f5f5; }
-        @media (max-width: 768px) {
-            .top-nav { gap: 16px; justify-content: center; }
-            .nav-item { font-size: 0.85rem; }
-        }
-
-        /* Slider */
-        .custom-slider-wrapper {
-            position: relative;
-            max-width: 1280px;
-            margin: 30px auto 0;
-            overflow: hidden;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
-        }
-        .custom-slides { display: flex; transition: transform 0.5s ease; }
-        .custom-slide {
-            min-width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 40px 56px;
-            gap: 40px;
-            background: #fff;
-            flex-wrap: wrap;
-        }
-        .custom-slide-content { flex: 1; }
-        .custom-slide-content h2 { font-size: 2rem; margin-bottom: 1rem; }
-        .custom-slide-content p { margin-bottom: 2rem; color: #3a3a3a; }
-        .custom-slide-btn {
-            background: #000;
-            color: #fff;
-            padding: 12px 28px;
-            text-decoration: none;
-            display: inline-block;
-            cursor: pointer;
-            border: none;
-        }
-        .custom-slide-image { flex: 0.4; text-align: center; }
-        .custom-slide-image img { max-width: 240px; max-height: 280px; object-fit: contain; }
-        .custom-slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #000;
-            color: white;
-            border: none;
-            width: 44px;
-            height: 44px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .custom-slider-wrapper:hover .custom-slider-btn { opacity: 0.8; }
-        .custom-slider-left { left: 20px; }
-        .custom-slider-right { right: 20px; }
-        @media (max-width: 768px) {
-            .custom-slider-btn { display: none; }
-            .custom-slide { padding: 20px 16px; flex-direction: row; }
-            .custom-slide-content h2 { font-size: 1.2rem; }
-            .custom-slide-content p { font-size: 0.8rem; }
-            .custom-slide-btn { padding: 6px 16px; font-size: 0.75rem; }
-            .custom-slide-image { flex: 0.3; }
-            .custom-slide-image img { max-width: 100px; max-height: 140px; }
-        }
-
-        .slider-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            margin-top: 16px;
-            margin-bottom: 20px;
-        }
-        .slider-indicators { display: flex; gap: 10px; }
-        .indicator-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #ccc;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .indicator-dot.active { background-color: #000; }
-        .play-pause-btn {
-            background: transparent;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        /* Kategoriler */
-        .category-section { margin: 48px 0 40px; }
-        .category-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .category-head h2 { font-size: 1.4rem; font-weight: 700; text-transform: lowercase; }
-        .see-all-btn {
-            background: #000;
-            color: white;
-            padding: 4px 12px;
-            font-size: 0.7rem;
-            border: none;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .category-section { margin: 28px 0; }
-            .category-head h2 { font-size: 1rem; }
-        }
-
-        /* Carousel */
-        .carousel-wrapper { position: relative; display: flex; align-items: center; justify-content: center; }
-        .carousel-container { overflow: hidden; width: 100%; }
-        .carousel-track { display: flex; transition: transform 0.4s ease; gap: 16px; }
-        .product-card {
-            flex: 0 0 calc(20% - 13px);
-            min-width: calc(20% - 13px);
-            background: transparent;
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
-        @media (max-width: 768px) {
-            .carousel-container { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-            .carousel-container::-webkit-scrollbar { display: none; }
-            .carousel-track { transition: none; gap: 12px; }
-            .product-card { flex: 0 0 calc(45% - 8px); min-width: calc(45% - 8px); scroll-snap-align: start; }
-            .carousel-arrow { display: none; }
-        }
-        .product-img { aspect-ratio: 3/4; background: #fafafa; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .product-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .product-info { padding: 10px 0 6px; text-align: left; }
-        .product-title { font-size: 0.75rem; font-weight: 500; margin-bottom: 4px; }
-        .product-price { font-size: 0.8rem; font-weight: 600; margin: 4px 0 0; }
-        .btn-view {
-            background: #000;
-            color: white;
-            text-align: center;
-            padding: 5px 10px;
-            font-size: 0.65rem;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-            margin-top: 6px;
-        }
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #000;
-            padding: 0 8px;
-            z-index: 5;
-        }
-        .carousel-arrow-left { left: -30px; }
-        .carousel-arrow-right { right: -30px; }
-        @media (max-width: 1000px) {
-            .carousel-arrow-left { left: -10px; }
-            .carousel-arrow-right { right: -10px; }
-        }
-
-        /* Modal */
-        .whop-modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-        }
-        .whop-modal-content {
-            background-color: #fff;
-            margin: auto;
-            padding: 20px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .whop-close {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-        }
-        .terms-section { margin: 20px 0; }
-        .checkbox-group { display: flex; align-items: flex-start; margin-bottom: 16px; }
-        .checkbox-group input { margin-right: 12px; margin-top: 4px; width: 20px; height: 20px; accent-color: #000; }
-        .checkbox-group label { font-size: 15px; color: #4b5563; }
-        .button-container { margin-top: 20px; }
-        #custom-submit-btn {
-            width: 100%;
-            padding: 18px 24px;
-            border: none;
-            border-radius: 8px;
-            background-color: #000;
-            color: #fff;
-            cursor: pointer;
-        }
-        #custom-submit-btn:disabled { background-color: #ccc; cursor: not-allowed; }
-        .error-message { color: #d32f2f; text-align: center; margin-top: 10px; display: none; }
-    </style>
-    <script src="https://js.whop.com/static/checkout/loader.js" async defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>University Books | Digital Textbooks</title>
+  <meta name="description" content="Digital PDF textbooks, instant download.">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Whop Checkout Loader (global) -->
+  <script src="https://js.whop.com/static/checkout/loader.js" async defer></script>
 </head>
 <body>
 
-<!-- Menü -->
 <div class="top-nav">
-    <div class="nav-item" id="categoriesNav"><span>Categories ▼</span><div class="dropdown-menu" id="categoriesDropdown"></div></div>
-    <div class="nav-item" id="authorsNav"><span>Authors ▼</span><div class="dropdown-menu" id="authorsDropdown"><a href="#">Stephen King</a><a href="#">J.K. Rowling</a><a href="#">James Clear</a><a href="#" class="see-all-link">See all authors →</a></div></div>
-    <a href="#" class="nav-item" id="blogLink">Blog</a>
-</div>
-
-<!-- Slider -->
-<div class="custom-slider-wrapper" id="customSlider">
-    <div class="custom-slides" id="customSlides"></div>
-    <button class="custom-slider-btn custom-slider-left" id="customPrev">←</button>
-    <button class="custom-slider-btn custom-slider-right" id="customNext">→</button>
-</div>
-<div class="slider-controls">
-    <div class="slider-indicators" id="sliderIndicators"></div>
-    <button class="play-pause-btn" id="playPauseBtn">⏸</button>
-</div>
-
-<!-- Kategoriler -->
-<div id="categoriesContainer" style="max-width:1280px; margin:0 auto; padding:0 16px;"></div>
-
-<!-- Modal -->
-<div id="whopModal" class="whop-modal">
-    <div class="whop-modal-content">
-        <span class="whop-close">&times;</span>
-        <div id="whop-checkout-container"></div>
+  <div class="nav-item" id="categoriesNav">
+    <span>Categories ▼</span>
+    <div class="dropdown-menu" id="categoriesDropdown"></div>
+  </div>
+  <div class="nav-item" id="authorsNav">
+    <span>Authors ▼</span>
+    <div class="dropdown-menu" id="authorsDropdown">
+      <a href="#">Stephen King</a>
+      <a href="#">J.K. Rowling</a>
+      <a href="#">James Clear</a>
+      <a href="#" class="see-all-link">See all authors →</a>
     </div>
+  </div>
+  <a href="#" class="nav-item blog-link" id="blogLink">Blog</a>
 </div>
 
+<!-- Slider ve kategoriler buraya yüklenecek -->
+<div id="app"></div>
+
+<!-- Modal (Whop checkout) -->
+<div id="whopModal" class="whop-modal">
+  <div class="whop-modal-content">
+    <span class="whop-close">&times;</span>
+    <div id="whop-checkout-container"></div>
+  </div>
+</div>
+
+<script src="js/main.js" type="module"></script>
 <script>
-    // ---------- Dropdown ----------
-    let closeTimeout = null;
-    function closeAllDropdowns() { document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show')); }
-    function openDropdown(d) { if(closeTimeout) clearTimeout(closeTimeout); closeAllDropdowns(); d.classList.add('show'); }
-    function scheduleClose(d) { if(closeTimeout) clearTimeout(closeTimeout); closeTimeout = setTimeout(() => d.classList.remove('show'), 300); }
-    if (window.innerWidth > 768) {
-        const catItem = document.getElementById('categoriesNav'), catDrop = document.getElementById('categoriesDropdown');
-        const authItem = document.getElementById('authorsNav'), authDrop = document.getElementById('authorsDropdown');
-        catItem.addEventListener('mouseenter', () => openDropdown(catDrop));
-        catItem.addEventListener('mouseleave', () => scheduleClose(catDrop));
-        catDrop.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
-        catDrop.addEventListener('mouseleave', () => scheduleClose(catDrop));
-        authItem.addEventListener('mouseenter', () => openDropdown(authDrop));
-        authItem.addEventListener('mouseleave', () => scheduleClose(authDrop));
-        authDrop.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
-        authDrop.addEventListener('mouseleave', () => scheduleClose(authDrop));
-    } else {
-        document.querySelectorAll('.nav-item').forEach(item => {
-            const drop = item.querySelector('.dropdown-menu');
-            if(drop) item.addEventListener('click', (e) => { e.stopPropagation(); const isOpen = drop.classList.contains('show'); closeAllDropdowns(); if(!isOpen) drop.classList.add('show'); });
+  // Dropdown menü için yardımcı (kısa kod, dışarıda da olabilir ama burada bırakalım)
+  let closeTimeout = null;
+  function closeAllDropdowns() {
+    document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
+  }
+  function openDropdown(dropdown) {
+    if (closeTimeout) clearTimeout(closeTimeout);
+    closeAllDropdowns();
+    dropdown.classList.add('show');
+  }
+  function scheduleClose(dropdown) {
+    if (closeTimeout) clearTimeout(closeTimeout);
+    closeTimeout = setTimeout(() => dropdown.classList.remove('show'), 300);
+  }
+  if (window.innerWidth > 768) {
+    const catItem = document.getElementById('categoriesNav');
+    const catDropdown = document.getElementById('categoriesDropdown');
+    const authItem = document.getElementById('authorsNav');
+    const authDropdown = document.getElementById('authorsDropdown');
+    if (catItem) {
+      catItem.addEventListener('mouseenter', () => openDropdown(catDropdown));
+      catItem.addEventListener('mouseleave', () => scheduleClose(catDropdown));
+      catDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
+      catDropdown.addEventListener('mouseleave', () => scheduleClose(catDropdown));
+    }
+    if (authItem) {
+      authItem.addEventListener('mouseenter', () => openDropdown(authDropdown));
+      authItem.addEventListener('mouseleave', () => scheduleClose(authDropdown));
+      authDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
+      authDropdown.addEventListener('mouseleave', () => scheduleClose(authDropdown));
+    }
+  } else {
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const dropdown = item.querySelector('.dropdown-menu');
+      if (dropdown) {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = dropdown.classList.contains('show');
+          closeAllDropdowns();
+          if (!isOpen) dropdown.classList.add('show');
         });
-        document.addEventListener('click', closeAllDropdowns);
-    }
-
-    // Kategori dropdown linklerini doldur
-    const catList = [
-        "best-seller","new-arrivals","medical-nursing","textbooks","engineering-math","business-career",
-        "bestseller-novels","student-favorites","psychology-counseling","history-humanities","natural-sciences",
-        "software-computer","education","herbal-medicine"
-    ];
-    const catTitles = {
-        "best-seller":"Best Seller","new-arrivals":"New Arrivals","medical-nursing":"Medical & Nursing","textbooks":"Textbooks",
-        "engineering-math":"Engineering & Mathematics","business-career":"Business & Career","bestseller-novels":"Bestseller Novels",
-        "student-favorites":"Student Favorites","psychology-counseling":"Psychology & Counseling","history-humanities":"History & Humanities",
-        "natural-sciences":"Natural Sciences","software-computer":"Software & Computer Science","education":"Education","herbal-medicine":"Herbal & Alternative Medicine"
-    };
-    const categoriesDropdown = document.getElementById('categoriesDropdown');
-    categoriesDropdown.innerHTML = catList.map(id => `<a href="#category-${id}">${catTitles[id]}</a>`).join('');
-    document.querySelectorAll('#categoriesDropdown a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetEl = document.getElementById(targetId);
-            if(targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            closeAllDropdowns();
-        });
+      }
     });
-    document.getElementById('blogLink').addEventListener('click', (e) => { e.preventDefault(); alert('Blog coming soon.'); });
-
-    // ---------- Slider verileri ----------
-    const miladyImage = "https://imgproxy.fourthwall.com/smD2ZuSufwXNybwkL_4mOv1pQC3bdDlmpmYDefdibwM/w:1920/sm:1/enc/4S7VQ6Jqsmabmjyp/MiRZvftRchyWpC3O/syYARl4Up2YROwjc/4OiABjauWeIkuQv4/fBE4_vz6r0XDLITT/XfVDHG7JIigh_YCF/EnU_Eg02eLNGOTGF/c_Ea1kuMwTMiiadK/4R9QzYWB8BgUwCru/84MUplL250OiBPSU/cR4oN3fRtN-Lk2aT/qrY3S2YeO5WNfd9D/euCDL2s6GbUqAPtA/jI_c3w";
-    const slidesData = [
-        { title: "Milady Standard Cosmetology 14th Edition", desc: "Official digital PDF • Instant download", image: miladyImage },
-        { title: "Barron's AP Calculus Premium 2026", desc: "12 full-length tests", image: miladyImage },
-        { title: "Netter's Atlas of Human Anatomy", desc: "8th Edition", image: miladyImage },
-        { title: "PMBOK Guide 7th Edition", desc: "Official PMI", image: miladyImage },
-        { title: "Campbell Biology AP 12th", desc: "Urry & Cain", image: miladyImage }
-    ];
-    const slidesContainer = document.getElementById('customSlides');
-    let currentSlideIndex = 0, autoInterval, isPlaying = true;
-    function renderSlides() {
-        slidesContainer.innerHTML = slidesData.map(slide => `
-            <div class="custom-slide">
-                <div class="custom-slide-content">
-                    <h2>${escapeHtml(slide.title)}</h2>
-                    <p>${escapeHtml(slide.desc)}</p>
-                    <button class="custom-slide-btn view-book-trigger" data-plan-id="plan_ubegJ5QTCGxBS">View Book →</button>
-                </div>
-                <div class="custom-slide-image"><img src="${slide.image}" alt="${escapeHtml(slide.title)}" onerror="this.src='https://placehold.co/400x500?text=Cover'"></div>
-            </div>
-        `).join('');
-        updateSlidePosition();
-        renderIndicators();
-    }
-    function renderIndicators() {
-        const indContainer = document.getElementById('sliderIndicators');
-        indContainer.innerHTML = slidesData.map((_, idx) => `<div class="indicator-dot ${idx === currentSlideIndex ? 'active' : ''}" data-index="${idx}"></div>`).join('');
-        document.querySelectorAll('.indicator-dot').forEach(dot => {
-            dot.addEventListener('click', (e) => { currentSlideIndex = parseInt(e.target.dataset.index); updateSlidePosition(); resetAutoTimer(); renderIndicators(); });
-        });
-    }
-    function updateSlidePosition() { slidesContainer.style.transform = `translateX(-${currentSlideIndex * 100}%)`; renderIndicators(); }
-    function nextSlide() { currentSlideIndex = (currentSlideIndex+1)%slidesData.length; updateSlidePosition(); resetAutoTimer(); }
-    function prevSlide() { currentSlideIndex = (currentSlideIndex-1+slidesData.length)%slidesData.length; updateSlidePosition(); resetAutoTimer(); }
-    function startAutoSlide() { if(autoInterval) clearInterval(autoInterval); autoInterval = setInterval(nextSlide,5000); isPlaying=true; document.getElementById('playPauseBtn').innerHTML='⏸'; }
-    function stopAutoSlide() { if(autoInterval) clearInterval(autoInterval); autoInterval=null; isPlaying=false; document.getElementById('playPauseBtn').innerHTML='▶'; }
-    function resetAutoTimer() { if(isPlaying){ stopAutoSlide(); startAutoSlide(); } }
-    function togglePlayPause() { isPlaying? stopAutoSlide() : startAutoSlide(); }
-    document.getElementById('customNext').addEventListener('click', nextSlide);
-    document.getElementById('customPrev').addEventListener('click', prevSlide);
-    document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
-    renderSlides();
-    startAutoSlide();
-
-    // ---------- Ürün verileri (14 kategori, her biri 5 ürün) ----------
-    const allProducts = [];
-    const categories = catList.map(id => ({ id, title: catTitles[id] }));
-    categories.forEach(cat => {
-        for(let i=1; i<=5; i++) {
-            allProducts.push({
-                name: `${cat.title} - Sample Book ${i}`,
-                price: 9.99 + (i*2),
-                imageUrl: miladyImage,
-                category: cat.id,
-                planId: "plan_ubegJ5QTCGxBS"
-            });
-        }
-    });
-
-    // Carousel oluşturma
-    function createCarousel(categoryId, products) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'carousel-wrapper';
-        const carouselId = `carousel-${categoryId}`;
-        wrapper.innerHTML = `
-            <button class="carousel-arrow carousel-arrow-left" data-carousel="${carouselId}">‹</button>
-            <div class="carousel-container" id="${carouselId}"><div class="carousel-track" id="track-${carouselId}">${products.map(p => `
-                <div class="product-card">
-                    <div class="product-img"><img src="${p.imageUrl}" alt="${escapeHtml(p.name)}" loading="lazy"></div>
-                    <div class="product-info">
-                        <div class="product-title">${escapeHtml(p.name)}</div>
-                        <div class="product-price">$${p.price.toFixed(2)}</div>
-                        <button class="btn-view view-book-trigger" data-plan-id="${p.planId}">View Book →</button>
-                    </div>
-                </div>
-            `).join('')}</div></div>
-            <button class="carousel-arrow carousel-arrow-right" data-carousel="${carouselId}">›</button>
-        `;
-        return wrapper;
-    }
-    function initDesktopCarousel(carouselId, totalItems) {
-        const track = document.getElementById(`track-${carouselId}`);
-        if(!track || window.innerWidth<769) return;
-        const items = Array.from(track.children);
-        if(!items.length) return;
-        const itemsPerView=5, itemWidth=items[0].offsetWidth+16;
-        let currentGroup=0;
-        const groups=Math.ceil(totalItems/itemsPerView);
-        const update=()=>{ track.style.transform=`translateX(${-currentGroup*(itemsPerView*itemWidth)}px)`; };
-        const leftBtn=document.querySelector(`.carousel-arrow-left[data-carousel="${carouselId}"]`);
-        const rightBtn=document.querySelector(`.carousel-arrow-right[data-carousel="${carouselId}"]`);
-        if(leftBtn) leftBtn.addEventListener('click',()=>{ currentGroup=(currentGroup-1+groups)%groups; update(); });
-        if(rightBtn) rightBtn.addEventListener('click',()=>{ currentGroup=(currentGroup+1)%groups; update(); });
-        update();
-    }
-    const containerElem = document.getElementById('categoriesContainer');
-    let html = '';
-    categories.forEach(cat => {
-        const filtered = allProducts.filter(p=>p.category===cat.id);
-        if(filtered.length) html += `<div class="category-section" id="category-${cat.id}"><div class="category-head"><h2>${cat.title}</h2><button class="see-all-btn">See all →</button></div><div id="carousel-placeholder-${cat.id}"></div></div>`;
-    });
-    containerElem.innerHTML = html;
-    categories.forEach(cat => {
-        const filtered = allProducts.filter(p=>p.category===cat.id);
-        if(!filtered.length) return;
-        const placeholder = document.getElementById(`carousel-placeholder-${cat.id}`);
-        const carousel = createCarousel(cat.id, filtered);
-        placeholder.appendChild(carousel);
-        if(window.innerWidth>=769) setTimeout(()=>initDesktopCarousel(cat.id, filtered.length), 100);
-    });
-
-    // ---------- Whop Modal ----------
-    const modal = document.getElementById('whopModal');
-    const closeModalBtn = document.querySelector('.whop-close');
-    const checkoutContainer = document.getElementById('whop-checkout-container');
-    function closeModal() { modal.style.display = 'none'; checkoutContainer.innerHTML = ''; }
-    closeModalBtn.onclick = closeModal;
-    window.onclick = (e) => { if(e.target === modal) closeModal(); };
-
-    function openCheckoutModal(planId) {
-        checkoutContainer.innerHTML = `
-            <div class="checkout-wrapper">
-                <div class="whop-checkout-embed" id="whop-embedded-checkout" data-whop-checkout-plan-id="${planId}" data-whop-checkout-theme="light" data-whop-checkout-theme-accent-color="blue" data-whop-checkout-hide-submit-button="true"></div>
-                <div class="terms-section">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="accept-terms">
-                        <label for="accept-terms">I agree to the <a href="#" target="_blank">Terms & Conditions</a> and <a href="#" target="_blank">Privacy Policy</a></label>
-                    </div>
-                </div>
-                <div class="button-container">
-                    <button id="custom-submit-btn" style="background-color:#000; color:#fff;"><span class="button-title">Complete Purchase</span></button>
-                    <div class="error-message" id="error-message">Please accept all terms to continue</div>
-                </div>
-            </div>
-        `;
-        modal.style.display = 'flex';
-        setTimeout(() => {
-            if(typeof wco !== 'undefined') {
-                const submitBtn = document.getElementById('custom-submit-btn');
-                const acceptCheckbox = document.getElementById('accept-terms');
-                const errorMsg = document.getElementById('error-message');
-                function enableSubmit() {
-                    if(acceptCheckbox.checked) { submitBtn.disabled = false; errorMsg.style.display = 'none'; }
-                    else { submitBtn.disabled = true; }
-                }
-                acceptCheckbox.addEventListener('change', enableSubmit);
-                enableSubmit();
-                let checkoutSubmitted = false, submitTimeout = null;
-                function resetSubmitButton() {
-                    if(submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<span class="button-title">Complete Purchase</span>'; }
-                    checkoutSubmitted = false;
-                    if(submitTimeout) clearTimeout(submitTimeout);
-                }
-                submitBtn.addEventListener('click', () => {
-                    if(!acceptCheckbox.checked) { errorMsg.style.display = 'block'; return; }
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = 'Processing...';
-                    checkoutSubmitted = true;
-                    submitTimeout = setTimeout(resetSubmitButton, 30000);
-                    wco.submit('whop-embedded-checkout');
-                });
-                window.addEventListener('message', function whopListener(event) {
-                    if(!event.data || !event.data.type) return;
-                    if(event.data.type === 'whop_checkout_complete') {
-                        resetSubmitButton();
-                        setTimeout(() => { closeModal(); alert('Thank you for your purchase!'); }, 1000);
-                        window.removeEventListener('message', whopListener);
-                    }
-                    if(event.data.type === 'whop_checkout_error') {
-                        resetSubmitButton();
-                        alert('Payment error. Please try again.');
-                        window.removeEventListener('message', whopListener);
-                    }
-                });
-            } else {
-                checkoutContainer.innerHTML = '<p style="color:red;">Payment system not ready. Please refresh.</p>';
-            }
-        }, 300);
-    }
-
-    // Tüm "View Book" butonlarına tıklama olayı (delegasyon)
-    document.body.addEventListener('click', (e) => {
-        const trigger = e.target.closest('.view-book-trigger');
-        if(trigger) {
-            e.preventDefault();
-            const planId = trigger.getAttribute('data-plan-id') || 'plan_ubegJ5QTCGxBS';
-            openCheckoutModal(planId);
-        }
-    });
-
-    function escapeHtml(str) {
-        if(!str) return '';
-        return str.replace(/[&<>]/g, m => m==='&'?'&amp;': m==='<'?'&lt;':'&gt;');
-    }
+    document.addEventListener('click', closeAllDropdowns);
+  }
+  document.getElementById('blogLink')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Blog page coming soon.');
+  });
 </script>
 </body>
 </html>
