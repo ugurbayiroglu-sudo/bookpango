@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Access — Checkout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0a0a0f;
+            --paper: #f5f3ee;
+            --accent: #1a1aff;
+            --accent-light: #e8e8ff;
+            --mid: #6b6b7b;
+            --border: #dddad4;
+            --white: #ffffff;
+            --success: #00c26f;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── NOISE TEXTURE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* ── HEADER ── */
+        header {
+            padding: 28px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            background: var(--white);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+            color: var(--ink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            color: var(--mid);
+            font-weight: 400;
+        }
+
+        .secure-badge svg { opacity: 0.6; }
+
+        /* ── MAIN LAYOUT ── */
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 480px;
+            max-width: 1080px;
+            margin: 0 auto;
+            width: 100%;
+            gap: 0;
+            padding: 0;
+        }
+
+        /* ── LEFT PANEL ── */
+        .info-panel {
+            padding: 60px 56px 60px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .product-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            color: var(--ink);
+        }
+
+        .product-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .product-desc {
+            font-size: 16px;
+            line-height: 1.75;
+            color: var(--mid);
+            font-weight: 300;
+            max-width: 380px;
+        }
+
+        /* Features */
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--accent-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .feature-icon svg { color: var(--accent); }
+
+        .feature-text {
+            font-size: 15px;
+            color: var(--ink);
+            line-height: 1.5;
+        }
+
+        .feature-text strong {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .feature-text span {
+            font-size: 13px;
+            color: var(--mid);
+            font-weight: 300;
+        }
+
+        /* Price Tag */
+        .price-block {
+            padding: 24px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .price-amount {
+            font-family: 'Syne', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .price-period {
+            font-size: 14px;
+            color: var(--mid);
+            font-weight: 300;
+        }
+
+        .price-tag {
+            margin-left: auto;
+            background: var(--success);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .testimonial {
+            padding: 16px 18px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 13.5px;
+            color: var(--mid);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            color: var(--accent-light);
+            position: absolute;
+            top: 8px;
+            left: 14px;
+            line-height: 1;
+        }
+
+        .testimonial-text { padding-left: 18px; }
+
+        .testimonial-author {
+            margin-top: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            padding-left: 18px;
+        }
+
+        /* ── RIGHT PANEL (CHECKOUT) ── */
+        .checkout-panel {
+            background: var(--white);
+            border-left: 1px solid var(--border);
+            padding: 48px 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-height: 100%;
+        }
+
+        .checkout-heading {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        /* Whop embed container */
+        .whop-embed-wrapper {
+            flex: 1;
+        }
+
+        /* ── WHOP EMBED STYLES ── */
+        .checkout-wrapper { width: 100%; }
+
+        .terms-section { margin: 4px 0; }
+
+        .checkbox-group {
+            margin-bottom: 14px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            min-width: 18px;
+            min-height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+
+        .checkbox-group label {
+            cursor: pointer;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: var(--mid);
+        }
+
+        .checkbox-group a {
+            color: var(--accent);
+            text-decoration: none;
+            margin-left: 4px;
+        }
+
+        .checkbox-group a:hover { text-decoration: underline; }
+
+        .button-container { margin-top: 16px; }
+
+        #custom-submit-btn {
+            width: 100%;
+            padding: 18px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: var(--ink);
+            color: white;
+            box-shadow: 0 4px 20px rgba(10,10,15,0.15);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+        }
+
+        #custom-submit-btn .button-title {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        #custom-submit-btn .button-subtext {
+            font-size: 11px;
+            font-weight: 400;
+            opacity: 0.6;
+            margin-top: 4px;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        #custom-submit-btn:hover:not(:disabled) {
+            background: var(--accent) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(26,26,255,0.25);
+        }
+
+        #custom-submit-btn:disabled {
+            background-color: #cccccc !important;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 13px;
+            display: none;
+        }
+
+        /* Trust strip */
+        .trust-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: var(--mid);
+            font-weight: 400;
+        }
+
+        .trust-item svg { opacity: 0.5; }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--white);
+        }
+
+        footer p {
+            font-size: 12px;
+            color: var(--mid);
+        }
+
+        footer a {
+            color: var(--mid);
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        footer a:hover { color: var(--ink); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 860px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            .info-panel {
+                padding: 40px 24px;
+                gap: 28px;
+            }
+            .checkout-panel {
+                border-left: none;
+                border-top: 1px solid var(--border);
+                padding: 32px 24px;
+            }
+            .product-title { font-size: 34px; }
+            header { padding: 20px 24px; }
+            footer { padding: 16px 24px; flex-direction: column; gap: 8px; text-align: center; }
+        }
+
+        /* Loading animation */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-panel > * {
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .info-panel > *:nth-child(1) { animation-delay: 0.05s; }
+        .info-panel > *:nth-child(2) { animation-delay: 0.12s; }
+        .info-panel > *:nth-child(3) { animation-delay: 0.19s; }
+        .info-panel > *:nth-child(4) { animation-delay: 0.26s; }
+        .info-panel > *:nth-child(5) { animation-delay: 0.33s; }
+        .info-panel > *:nth-child(6) { animation-delay: 0.40s; }
+
+        .checkout-panel {
+            animation: fadeUp 0.6s 0.15s ease both;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="#" class="logo">
+            <span class="logo-dot"></span>
+            YourBrand
+        </a>
+        <div class="secure-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Güvenli ödeme · Whop tarafından işleniyor
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- LEFT: Product info -->
+        <section class="info-panel">
+            <p class="eyebrow">Sınırlı Erişim</p>
+
+            <h1 class="product-title">
+                Premium<br><em>Üyelik</em><br>Planı
+            </h1>
+
+            <p class="product-desc">
+                Tüm premium içeriklere, özel topluluğa ve sürekli güncellenen kaynaklara sınırsız erişim elde edin.
+            </p>
+
+            <!-- Features -->
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <strong>Anında Erişim</strong>
+                        <span>Ödeme tamamlandıktan saniyeler içinde aktif</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <strong>7/24 Destek</strong>
+                        <span>Özel Discord kanalı ve e-posta desteği</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <strong>%100 Güvenli</strong>
+                        <span>Verileriniz şifrelenerek korunur</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="feature-text">
+                        <strong>Özel Topluluk</strong>
+                        <span>500+ aktif üye ile network fırsatları</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="testimonials">
+                <div class="testimonial">
+                    <p class="testimonial-text">Bu üyelik benim için gerçek bir oyun değiştirici oldu. Kesinlikle tavsiye ederim.</p>
+                    <p class="testimonial-author">— Ahmet K., Üye</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT: Checkout embed -->
+        <section class="checkout-panel">
+            <h2 class="checkout-heading">Siparişi Tamamla</h2>
+
+            <div class="whop-embed-wrapper">
+                <!-- ── WHOP CHECKOUT EMBED ── -->
+                <script src="https://js.whop.com/static/checkout/loader.js" async defer></script>
+
+                <div class="checkout-wrapper">
+                    <div
+                        class="whop-checkout-embed"
+                        id="whop-embedded-checkout"
+                        data-whop-checkout-plan-id="plan_ubegJ5QTCGxBS"
+                        data-whop-checkout-theme="light"
+                        data-whop-checkout-theme-accent-color="blue"
+                        data-whop-checkout-hide-submit-button="true"
+                    ></div>
+
+                    <div class="button-container">
+                        <button id="custom-submit-btn">
+                            <span class="button-title">Satın Almayı Tamamla</span>
+                            <span class="button-subtext">Güvenli ödeme · Anında aktivasyon</span>
+                        </button>
+                        <div class="error-message" id="error-message">
+                            Devam etmek için lütfen tüm koşulları kabul edin.
+                        </div>
+                    </div>
+                </div>
+                <!-- ── /WHOP CHECKOUT EMBED ── -->
+            </div>
+
+            <!-- Trust strip -->
+            <div class="trust-strip">
+                <div class="trust-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    SSL Şifreli
+                </div>
+                <div class="trust-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Whop Güvencesi
+                </div>
+                <div class="trust-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Anında Erişim
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 YourBrand. Tüm hakları saklıdır.</p>
+        <div style="display:flex; gap:16px;">
+            <a href="#">Gizlilik Politikası</a>
+            <a href="#">Kullanım Koşulları</a>
+            <a href="#">İletişim</a>
+        </div>
+    </footer>
+
+    <!-- WHOP CHECKOUT LOGIC -->
+    <script>
+        var checkoutSubmitted = false;
+        var submitTimeout = null;
+        var originalButtonHTML = '<span class="button-title">Satın Almayı Tamamla</span><span class="button-subtext">Güvenli ödeme · Anında aktivasyon</span>';
+        var allowedOrigins = ['https://whop.com', 'https://checkout.whop.com', 'https://iframe.whop.com'];
+
+        function resetSubmitButton() {
+            var submitBtn = document.getElementById('custom-submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalButtonHTML;
+            }
+            checkoutSubmitted = false;
+            if (submitTimeout) { clearTimeout(submitTimeout); submitTimeout = null; }
+        }
+
+        window.addEventListener('message', function(event) {
+            if (!allowedOrigins.some(function(o) { return event.origin === o || event.origin.endsWith('.whop.com'); })) return;
+            if (!event.data || typeof event.data !== 'object' || !event.data.type) return;
+            if (typeof event.data.type !== 'string' || !event.data.type.startsWith('whop_checkout')) return;
+
+            var submitBtn = document.getElementById('custom-submit-btn');
+
+            if (event.data.type === 'whop_checkout_update' || event.data.type === 'whop_checkout_ready') {
+                if (checkoutSubmitted) resetSubmitButton();
+                return;
+            }
+
+            if (!checkoutSubmitted) return;
+
+            if (event.data.type === 'whop_checkout_complete') {
+                if (submitTimeout) { clearTimeout(submitTimeout); submitTimeout = null; }
+                checkoutSubmitted = false;
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<span class="button-title">✓ Ödeme Tamamlandı!</span>';
+                    submitBtn.style.background = '#00c26f';
+                }
+                return;
+            }
+
+            if (event.data.type === 'whop_checkout_error' ||
+                event.data.type.includes('error') ||
+                event.data.type.includes('fail') ||
+                event.data.type.includes('invalid')) {
+                resetSubmitButton();
+                return;
+            }
+        });
+
+        function initCustomCheckout() {
+            var submitBtn = document.getElementById('custom-submit-btn');
+            submitBtn.addEventListener('click', function() {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="button-title">İşleniyor...</span>';
+                try {
+                    if (typeof wco !== 'undefined') {
+                        checkoutSubmitted = true;
+                        submitTimeout = setTimeout(function() { resetSubmitButton(); }, 30000);
+                        wco.submit('whop-embedded-checkout');
+                    } else {
+                        console.error('Whop checkout yüklenemedi');
+                        resetSubmitButton();
+                    }
+                } catch (err) {
+                    console.error('Ödeme gönderilemedi:', err);
+                    resetSubmitButton();
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() { setTimeout(initCustomCheckout, 1000); });
+        } else {
+            setTimeout(initCustomCheckout, 1000);
+        }
+    </script>
+
+</body>
+</html>
