@@ -42,7 +42,6 @@
     .nav-item.blog-link:hover {
       opacity: 0.6;
     }
-    /* Dropdown menü */
     .dropdown-menu {
       position: absolute;
       top: 100%;
@@ -80,7 +79,6 @@
       background: #f9f9f9;
       margin-top: 4px;
     }
-    /* Mobil için düzenleme */
     @media (max-width: 768px) {
       .top-nav {
         gap: 16px;
@@ -96,7 +94,7 @@
       }
     }
 
-    /* -------------------- SLIDER ALANI (Mobilde yatay) -------------------- */
+    /* -------------------- SLIDER ALANI -------------------- */
     .custom-slider-wrapper {
       position: relative;
       max-width: 1280px;
@@ -141,6 +139,8 @@
       font-weight: 500;
       display: inline-block;
       transition: background 0.2s;
+      cursor: pointer;
+      border: none;
     }
     .custom-slide-btn:hover {
       background: #333;
@@ -155,7 +155,6 @@
       object-fit: contain;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
-    /* Slider okları */
     .custom-slider-btn {
       position: absolute;
       top: 50%;
@@ -187,7 +186,6 @@
     .custom-slider-right {
       right: 20px;
     }
-    /* Mobilde slider yatay kalır, oklar gizlenir */
     @media (max-width: 768px) {
       .custom-slider-btn {
         display: none;
@@ -219,7 +217,7 @@
       }
     }
 
-    /* -------------------- SLIDER INDICATOR + PLAY/PAUSE -------------------- */
+    /* Slider controls */
     .slider-controls {
       display: flex;
       justify-content: center;
@@ -254,15 +252,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: auto;
-      height: auto;
-      transition: opacity 0.2s;
     }
     .play-pause-btn:hover {
       opacity: 0.6;
     }
 
-    /* -------------------- KATEGORİ BÖLÜMLERİ (Mobilde taşmayacak) -------------------- */
+    /* Kategori bölümleri */
     .category-section {
       margin: 48px 0 40px;
     }
@@ -293,6 +288,8 @@
       white-space: nowrap;
       display: inline-block;
       flex-shrink: 0;
+      border: none;
+      cursor: pointer;
     }
     .see-all-btn:hover {
       background: #333;
@@ -301,12 +298,8 @@
       .category-section {
         margin: 28px 0 24px;
       }
-      .category-head {
-        gap: 6px;
-      }
       .category-head h2 {
         font-size: 1rem;
-        letter-spacing: -0.3px;
       }
       .see-all-btn {
         padding: 2px 8px;
@@ -314,7 +307,7 @@
       }
     }
 
-    /* -------------------- CAROUSEL (MASAÜSTÜ: 5'Lİ GRUP, MOBİL: SCROLL SNAP) -------------------- */
+    /* Carousel */
     .carousel-wrapper {
       position: relative;
       display: flex;
@@ -335,7 +328,6 @@
       min-width: calc(20% - 13px);
       background: transparent;
       border: none;
-      box-shadow: none;
       transition: transform 0.2s;
       display: flex;
       flex-direction: column;
@@ -378,7 +370,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0;
       overflow: hidden;
     }
     .product-img img {
@@ -392,8 +383,6 @@
     }
     .product-info {
       padding: 10px 0 6px;
-      background: transparent;
-      border: none;
       text-align: left;
     }
     .product-title {
@@ -402,7 +391,6 @@
       line-height: 1.3;
       color: #1a1a1a;
       margin-bottom: 4px;
-      white-space: normal;
     }
     .product-price {
       font-size: 0.8rem;
@@ -410,7 +398,7 @@
       color: #000;
       margin: 4px 0 0;
     }
-    .btn-view {
+    .buy-now-btn {
       background: #000;
       color: white;
       text-align: center;
@@ -420,8 +408,12 @@
       text-decoration: none;
       display: inline-block;
       margin-top: 6px;
+      border-radius: 2px;
+      cursor: pointer;
+      border: none;
+      width: 100%;
     }
-    .btn-view:hover {
+    .buy-now-btn:hover {
       background: #333;
     }
     .carousel-arrow {
@@ -448,16 +440,60 @@
       right: -30px;
     }
     @media (max-width: 1000px) {
-      .carousel-arrow-left {
-        left: -10px;
-      }
-      .carousel-arrow-right {
-        right: -10px;
-      }
+      .carousel-arrow-left { left: -10px; }
+      .carousel-arrow-right { right: -10px; }
     }
     @media (max-width: 768px) {
-      .carousel-arrow {
-        display: none;
+      .carousel-arrow { display: none; }
+    }
+
+    /* Modal (overlay payment) */
+    .payment-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .payment-modal.active {
+      display: flex;
+    }
+    .payment-modal-content {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      padding: 20px;
+    }
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      z-index: 10;
+    }
+    .whop-iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+    @media (max-width: 600px) {
+      .payment-modal-content {
+        width: 95%;
+        padding: 10px;
+      }
+      .whop-iframe {
+        height: 550px;
       }
     }
   </style>
@@ -467,41 +503,17 @@
 <div class="top-nav">
   <div class="nav-item" id="categoriesNav">
     <span>Categories ▼</span>
-    <div class="dropdown-menu" id="categoriesDropdown">
-      <a href="#category-best-seller">Best Seller</a>
-      <a href="#category-new-arrivals">New Arrivals</a>
-      <a href="#category-medical-nursing">Medical & Nursing</a>
-      <a href="#category-textbooks">Textbooks</a>
-      <a href="#category-engineering-math">Engineering & Mathematics</a>
-      <a href="#category-business-career">Business & Career</a>
-      <a href="#category-bestseller-novels">Bestseller Novels</a>
-      <a href="#category-student-favorites">Student Favorites</a>
-      <a href="#category-psychology-counseling">Psychology & Counseling</a>
-      <a href="#category-history-humanities">History & Humanities</a>
-      <a href="#category-natural-sciences">Natural Sciences</a>
-      <a href="#category-software-computer">Software & Computer Science</a>
-      <a href="#category-education">Education</a>
-      <a href="#category-herbal-medicine">Herbal & Alternative Medicine</a>
-    </div>
+    <div class="dropdown-menu" id="categoriesDropdown"></div>
   </div>
-
   <div class="nav-item" id="authorsNav">
     <span>Authors ▼</span>
     <div class="dropdown-menu" id="authorsDropdown">
       <a href="#">Stephen King</a>
       <a href="#">J.K. Rowling</a>
       <a href="#">James Clear</a>
-      <a href="#">Yuval Noah Harari</a>
-      <a href="#">Michelle Obama</a>
-      <a href="#">Robert Greene</a>
-      <a href="#">Brené Brown</a>
-      <a href="#">Malcolm Gladwell</a>
-      <a href="#">Chimamanda Ngozi Adichie</a>
-      <a href="#">Colleen Hoover</a>
       <a href="#" class="see-all-link">See all authors →</a>
     </div>
   </div>
-
   <a href="#" class="nav-item blog-link" id="blogLink">Blog</a>
 </div>
 
@@ -517,51 +529,56 @@
 
 <div id="categoriesContainer" style="max-width:1280px; margin:0 auto; padding:0 16px;"></div>
 
+<!-- Ödeme Modal -->
+<div id="paymentModal" class="payment-modal">
+  <div class="payment-modal-content">
+    <button class="close-modal" id="closeModalBtn">&times;</button>
+    <iframe id="whopIframe" class="whop-iframe" src=""></iframe>
+  </div>
+</div>
+
 <script>
   // =========================================================================
-  // 1. DROPDOWN MENÜ (Gecikmeli kapatma, hover/touch)
+  // WHOP PLAN ID (Sizin verdiğiniz)
+  // =========================================================================
+  const WHOP_PLAN_ID = "plan_ubegJ5QTCGxBS";
+  const WHOP_CHECKOUT_URL = `https://whop.com/checkout/plan_${WHOP_PLAN_ID}/?embedded=1`;
+
+  // =========================================================================
+  // DROPDOWN MENÜ
   // =========================================================================
   let closeTimeout = null;
-
   function closeAllDropdowns() {
-    document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-      menu.classList.remove('show');
-    });
+    document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
   }
-
   function openDropdown(dropdown) {
     if (closeTimeout) clearTimeout(closeTimeout);
-    closeTimeout = null;
     closeAllDropdowns();
     dropdown.classList.add('show');
   }
-
   function scheduleClose(dropdown) {
     if (closeTimeout) clearTimeout(closeTimeout);
-    closeTimeout = setTimeout(() => {
-      dropdown.classList.remove('show');
-      closeTimeout = null;
-    }, 300);
+    closeTimeout = setTimeout(() => dropdown.classList.remove('show'), 300);
   }
-
   if (window.innerWidth > 768) {
-    const categoriesItem = document.getElementById('categoriesNav');
-    const authorsItem = document.getElementById('authorsNav');
-    const categoriesDropdown = document.getElementById('categoriesDropdown');
-    const authorsDropdown = document.getElementById('authorsDropdown');
-
-    categoriesItem.addEventListener('mouseenter', () => openDropdown(categoriesDropdown));
-    categoriesItem.addEventListener('mouseleave', () => scheduleClose(categoriesDropdown));
-    categoriesDropdown.addEventListener('mouseenter', () => { if (closeTimeout) clearTimeout(closeTimeout); });
-    categoriesDropdown.addEventListener('mouseleave', () => scheduleClose(categoriesDropdown));
-
-    authorsItem.addEventListener('mouseenter', () => openDropdown(authorsDropdown));
-    authorsItem.addEventListener('mouseleave', () => scheduleClose(authorsDropdown));
-    authorsDropdown.addEventListener('mouseenter', () => { if (closeTimeout) clearTimeout(closeTimeout); });
-    authorsDropdown.addEventListener('mouseleave', () => scheduleClose(authorsDropdown));
+    const catItem = document.getElementById('categoriesNav');
+    const catDropdown = document.getElementById('categoriesDropdown');
+    const authItem = document.getElementById('authorsNav');
+    const authDropdown = document.getElementById('authorsDropdown');
+    if (catItem) {
+      catItem.addEventListener('mouseenter', () => openDropdown(catDropdown));
+      catItem.addEventListener('mouseleave', () => scheduleClose(catDropdown));
+      catDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
+      catDropdown.addEventListener('mouseleave', () => scheduleClose(catDropdown));
+    }
+    if (authItem) {
+      authItem.addEventListener('mouseenter', () => openDropdown(authDropdown));
+      authItem.addEventListener('mouseleave', () => scheduleClose(authDropdown));
+      authDropdown.addEventListener('mouseenter', () => { if(closeTimeout) clearTimeout(closeTimeout); });
+      authDropdown.addEventListener('mouseleave', () => scheduleClose(authDropdown));
+    }
   } else {
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
+    document.querySelectorAll('.nav-item').forEach(item => {
       const dropdown = item.querySelector('.dropdown-menu');
       if (dropdown) {
         item.addEventListener('click', (e) => {
@@ -572,53 +589,63 @@
         });
       }
     });
-    document.addEventListener('click', () => closeAllDropdowns());
+    document.addEventListener('click', closeAllDropdowns);
   }
 
-  document.querySelectorAll('#categoriesDropdown a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href').substring(1);
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      closeAllDropdowns();
-    });
-  });
+  // Kategori dropdown linklerini doldur
+  const categoriesList = [
+    { id: "best-seller", title: "Best Seller" },
+    { id: "new-arrivals", title: "New Arrivals" },
+    { id: "medical-nursing", title: "Medical & Nursing" },
+    { id: "textbooks", title: "Textbooks" },
+    { id: "engineering-math", title: "Engineering & Mathematics" },
+    { id: "business-career", title: "Business & Career" },
+    { id: "bestseller-novels", title: "Bestseller Novels" },
+    { id: "student-favorites", title: "Student Favorites" },
+    { id: "psychology-counseling", title: "Psychology & Counseling" },
+    { id: "history-humanities", title: "History & Humanities" },
+    { id: "natural-sciences", title: "Natural Sciences" },
+    { id: "software-computer", title: "Software & Computer Science" },
+    { id: "education", title: "Education" },
+    { id: "herbal-medicine", title: "Herbal & Alternative Medicine" }
+  ];
 
-  document.querySelectorAll('#authorsDropdown a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      console.log('Yazar tıklandı:', link.textContent);
-      closeAllDropdowns();
+  const dropdownMenu = document.getElementById('categoriesDropdown');
+  if (dropdownMenu) {
+    dropdownMenu.innerHTML = categoriesList.map(cat => `<a href="#category-${cat.id}">${cat.title}</a>`).join('');
+    document.querySelectorAll('#categoriesDropdown a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        closeAllDropdowns();
+      });
     });
-  });
+  }
 
-  document.getElementById('blogLink').addEventListener('click', (e) => {
+  document.getElementById('blogLink')?.addEventListener('click', (e) => {
     e.preventDefault();
-    window.location.href = 'blog-page.html';
+    window.location.href = 'blog.html';
   });
 
   // =========================================================================
-  // 2. SLIDER FONKSİYONLARI (Slider verileri manuel dolduruldu)
+  // SLIDER
   // =========================================================================
   const miladyImage = "https://imgproxy.fourthwall.com/smD2ZuSufwXNybwkL_4mOv1pQC3bdDlmpmYDefdibwM/w:1920/sm:1/enc/4S7VQ6Jqsmabmjyp/MiRZvftRchyWpC3O/syYARl4Up2YROwjc/4OiABjauWeIkuQv4/fBE4_vz6r0XDLITT/XfVDHG7JIigh_YCF/EnU_Eg02eLNGOTGF/c_Ea1kuMwTMiiadK/4R9QzYWB8BgUwCru/84MUplL250OiBPSU/cR4oN3fRtN-Lk2aT/qrY3S2YeO5WNfd9D/euCDL2s6GbUqAPtA/jI_c3w";
-  const miladyUrl = "https://universitybooks-shop.fourthwall.com/products/milady-standard-cosmetology-14th-edition-pdf";
 
   const slidesData = [
-    { title: "Milady Standard Cosmetology 14th Edition", desc: "Official digital PDF • Instant download", image: miladyImage, url: miladyUrl },
-    { title: "Barron's AP Calculus Premium 2026", desc: "12 full-length tests", image: miladyImage, url: "#" },
-    { title: "Netter's Atlas of Human Anatomy", desc: "8th Edition", image: miladyImage, url: "#" },
-    { title: "PMBOK Guide 7th Edition", desc: "Official PMI", image: miladyImage, url: "#" },
-    { title: "Campbell Biology AP 12th", desc: "Urry & Cain", image: miladyImage, url: "#" }
+    { title: "Milady Standard Cosmetology 14th Edition", desc: "Official digital PDF • Instant download", image: miladyImage },
+    { title: "Barron's AP Calculus Premium 2026", desc: "12 full-length tests", image: miladyImage },
+    { title: "Netter's Atlas of Human Anatomy", desc: "8th Edition", image: miladyImage },
+    { title: "PMBOK Guide 7th Edition", desc: "Official PMI", image: miladyImage },
+    { title: "Campbell Biology AP 12th", desc: "Urry & Cain", image: miladyImage }
   ];
 
   const slidesContainer = document.getElementById('customSlides');
   let currentSlideIndex = 0;
   let autoInterval;
   let isPlaying = true;
-  let touchStartX = 0, touchEndX = 0;
 
   function renderSlides() {
     slidesContainer.innerHTML = slidesData.map((slide, idx) => `
@@ -626,7 +653,7 @@
         <div class="custom-slide-content">
           <h2>${escapeHtml(slide.title)}</h2>
           <p>${escapeHtml(slide.desc)}</p>
-          <a href="${slide.url}" target="_blank" class="custom-slide-btn">View Book →</a>
+          <button class="custom-slide-btn" data-product="${escapeHtml(slide.title)}">Buy Now →</button>
         </div>
         <div class="custom-slide-image">
           <img src="${slide.image}" alt="${escapeHtml(slide.title)}" onerror="this.src='https://placehold.co/400x500?text=Cover'">
@@ -635,6 +662,7 @@
     `).join('');
     updateSlidePosition();
     renderIndicators();
+    attachBuyButtons();
   }
 
   function renderIndicators() {
@@ -660,101 +688,45 @@
     renderIndicators();
   }
 
-  function nextSlide() {
-    currentSlideIndex = (currentSlideIndex + 1) % slidesData.length;
-    updateSlidePosition();
-    resetAutoTimer();
-  }
+  function nextSlide() { currentSlideIndex = (currentSlideIndex + 1) % slidesData.length; updateSlidePosition(); resetAutoTimer(); }
+  function prevSlide() { currentSlideIndex = (currentSlideIndex - 1 + slidesData.length) % slidesData.length; updateSlidePosition(); resetAutoTimer(); }
+  function startAutoSlide() { if(autoInterval) clearInterval(autoInterval); autoInterval = setInterval(nextSlide, 5000); isPlaying = true; const btn = document.getElementById('playPauseBtn'); if(btn) btn.innerHTML = '⏸'; }
+  function stopAutoSlide() { if(autoInterval) clearInterval(autoInterval); autoInterval = null; isPlaying = false; const btn = document.getElementById('playPauseBtn'); if(btn) btn.innerHTML = '▶'; }
+  function resetAutoTimer() { if(isPlaying) { stopAutoSlide(); startAutoSlide(); } }
+  function togglePlayPause() { isPlaying ? stopAutoSlide() : startAutoSlide(); }
 
-  function prevSlide() {
-    currentSlideIndex = (currentSlideIndex - 1 + slidesData.length) % slidesData.length;
-    updateSlidePosition();
-    resetAutoTimer();
-  }
-
-  function startAutoSlide() {
-    if (autoInterval) clearInterval(autoInterval);
-    autoInterval = setInterval(nextSlide, 5000);
-    isPlaying = true;
-    const btn = document.getElementById('playPauseBtn');
-    if (btn) btn.innerHTML = '⏸';
-  }
-
-  function stopAutoSlide() {
-    if (autoInterval) {
-      clearInterval(autoInterval);
-      autoInterval = null;
-    }
-    isPlaying = false;
-    const btn = document.getElementById('playPauseBtn');
-    if (btn) btn.innerHTML = '▶';
-  }
-
-  function resetAutoTimer() {
-    if (isPlaying) {
-      stopAutoSlide();
-      startAutoSlide();
-    }
-  }
-
-  function togglePlayPause() {
-    if (isPlaying) stopAutoSlide();
-    else startAutoSlide();
-  }
-
-  function handleTouchStart(e) { touchStartX = e.touches[0].clientX; }
-  function handleTouchEnd(e) {
-    touchEndX = e.changedTouches[0].clientX;
-    const diff = touchEndX - touchStartX;
-    if (Math.abs(diff) > 50) diff > 0 ? prevSlide() : nextSlide();
-  }
-
-  document.getElementById('customNext').addEventListener('click', nextSlide);
-  document.getElementById('customPrev').addEventListener('click', prevSlide);
-  const sliderWrapper = document.getElementById('customSlider');
-  sliderWrapper.addEventListener('touchstart', handleTouchStart, {passive: true});
-  sliderWrapper.addEventListener('touchend', handleTouchEnd);
-  document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+  document.getElementById('customNext')?.addEventListener('click', nextSlide);
+  document.getElementById('customPrev')?.addEventListener('click', prevSlide);
+  document.getElementById('playPauseBtn')?.addEventListener('click', togglePlayPause);
   
-  renderSlides();
-  startAutoSlide();
+  // Touch swipe
+  let touchStartX = 0;
+  const sliderWrapper = document.getElementById('customSlider');
+  if (sliderWrapper) {
+    sliderWrapper.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    sliderWrapper.addEventListener('touchend', e => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(diff) > 50) diff > 0 ? prevSlide() : nextSlide();
+    });
+  }
 
   // =========================================================================
-  // 3. ÜRÜN VERİLERİ (14 KATEGORİ, tüm ürünler Milady resmiyle dolu)
+  // ÜRÜN VERİLERİ (14 kategori, her birinde 5 ürün)
   // =========================================================================
   const allProducts = [];
-  const categoriesList = [
-    { id: "best-seller", title: "Best Seller" },
-    { id: "new-arrivals", title: "New Arrivals" },
-    { id: "medical-nursing", title: "Medical & Nursing" },
-    { id: "textbooks", title: "Textbooks" },
-    { id: "engineering-math", title: "Engineering & Mathematics" },
-    { id: "business-career", title: "Business & Career" },
-    { id: "bestseller-novels", title: "Bestseller Novels" },
-    { id: "student-favorites", title: "Student Favorites" },
-    { id: "psychology-counseling", title: "Psychology & Counseling" },
-    { id: "history-humanities", title: "History & Humanities" },
-    { id: "natural-sciences", title: "Natural Sciences" },
-    { id: "software-computer", title: "Software & Computer Science" },
-    { id: "education", title: "Education" },
-    { id: "herbal-medicine", title: "Herbal & Alternative Medicine" }
-  ];
-
-  // Her kategoriye 5 örnek ürün ekle (tüm resimler Milady)
   categoriesList.forEach((cat) => {
     for (let i = 1; i <= 5; i++) {
       allProducts.push({
-        name: `${cat.title} - Sample Book ${i}`,
-        price: 9.99 + (i * 2),
+        name: `${cat.title} - Book ${i}`,
+        price: (9.99 + i * 2).toFixed(2),
         imageUrl: miladyImage,
-        url: miladyUrl,
         category: cat.id
       });
     }
   });
 
   // =========================================================================
-  // 4. CAROUSEL OLUŞTURMA
+  // CAROUSEL OLUŞTURMA
   // =========================================================================
   function createCarousel(categoryId, products) {
     const container = document.createElement('div');
@@ -771,8 +743,8 @@
               </div>
               <div class="product-info">
                 <div class="product-title">${escapeHtml(p.name)}</div>
-                <div class="product-price">$${p.price.toFixed(2)}</div>
-                <a href="${p.url}" target="_blank" class="btn-view">View Book →</a>
+                <div class="product-price">$${p.price}</div>
+                <button class="buy-now-btn" data-product="${escapeHtml(p.name)}">Buy Now →</button>
               </div>
             </div>
           `).join('')}
@@ -822,7 +794,7 @@
       <div class="category-section" id="category-${cat.id}">
         <div class="category-head">
           <h2>${cat.title}</h2>
-          <a href="#" class="see-all-btn">See all →</a>
+          <button class="see-all-btn" data-category="${cat.id}">See all →</button>
         </div>
         <div id="carousel-placeholder-${cat.id}"></div>
       </div>
@@ -841,7 +813,67 @@
     }
   });
 
+  // "See all" butonları için basit uyarı
+  document.querySelectorAll('.see-all-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert('All books feature will be added soon.');
+    });
+  });
+
+  // =========================================================================
+  // ÖDEME MODAL (Overlay Payment)
+  // =========================================================================
+  const modal = document.getElementById('paymentModal');
+  const iframe = document.getElementById('whopIframe');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  function openPaymentModal() {
+    iframe.src = WHOP_CHECKOUT_URL;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePaymentModal() {
+    iframe.src = '';
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  closeModalBtn.addEventListener('click', closePaymentModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closePaymentModal();
+  });
+
+  // Tüm "Buy Now" butonlarına tıklama olayı ekle
+  function attachBuyButtons() {
+    document.querySelectorAll('.custom-slide-btn, .buy-now-btn').forEach(btn => {
+      btn.removeEventListener('click', handleBuyClick);
+      btn.addEventListener('click', handleBuyClick);
+    });
+  }
+
+  function handleBuyClick(e) {
+    e.preventDefault();
+    const productName = e.currentTarget.getAttribute('data-product') || 'Book';
+    console.log(`Opening checkout for: ${productName}`);
+    openPaymentModal();
+  }
+
+  // Slider'daki butonlara da ekle
+  function attachSliderButtons() {
+    setTimeout(() => {
+      attachBuyButtons();
+    }, 100);
+  }
+
+  // Sayfa yüklendikten sonra butonları bağla
+  window.addEventListener('load', () => {
+    attachBuyButtons();
+    attachSliderButtons();
+  });
+
   function escapeHtml(str) {
+    if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
       if (m === '&') return '&amp;';
       if (m === '<') return '&lt;';
@@ -849,6 +881,9 @@
       return m;
     });
   }
+
+  renderSlides();
+  startAutoSlide();
 </script>
 </body>
 </html>
